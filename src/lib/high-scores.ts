@@ -22,7 +22,9 @@ export interface Ranking {
 
 const STORAGE_KEY = 'tb_high_scores';
 
-const scores = createStore<HighScore[]>(readJson<HighScore[]>(STORAGE_KEY) ?? []);
+const scores = createStore<HighScore[]>(
+  readJson<HighScore[]>(STORAGE_KEY) ?? [],
+);
 
 function save(next: HighScore[]): void {
   writeJson(STORAGE_KEY, next);
@@ -47,7 +49,11 @@ export function rankPlayers(all: HighScore[], game: number): Ranking[] {
       entry.solves += 1;
       entry.best = Math.min(entry.best, score.time);
     } else {
-      byPlayer.set(score.user.uid, { user: score.user, best: score.time, solves: 1 });
+      byPlayer.set(score.user.uid, {
+        user: score.user,
+        best: score.time,
+        solves: 1,
+      });
     }
   }
   return [...byPlayer.values()].sort((a, b) => a.best - b.best);
@@ -57,7 +63,11 @@ export function getPersonalBest(game: number, uid: string): number | undefined {
   return rankPlayers(scores.get(), game).find((r) => r.user.uid === uid)?.best;
 }
 
-export function addHighScore(game: number, user: ScoreOwner, time: number): void {
+export function addHighScore(
+  game: number,
+  user: ScoreOwner,
+  time: number,
+): void {
   const score: HighScore = {
     id: `${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
     game,

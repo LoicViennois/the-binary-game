@@ -17,7 +17,11 @@ const NAME_PATTERN = /^[a-zA-Z0-9À-ÖØ-öø-ÿ]*$/;
 
 export function isValidName(name: string): boolean {
   const trimmed = name.trim();
-  return trimmed.length >= NAME_MIN_LENGTH && trimmed.length <= NAME_MAX_LENGTH && NAME_PATTERN.test(trimmed);
+  return (
+    trimmed.length >= NAME_MIN_LENGTH &&
+    trimmed.length <= NAME_MAX_LENGTH &&
+    NAME_PATTERN.test(trimmed)
+  );
 }
 
 function toUid(name: string): string {

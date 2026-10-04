@@ -46,13 +46,20 @@ export default defineConfig({
             type: 'image/png',
             purpose: 'any',
           })),
-          { src: 'icons/maskable-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          {
+            src: 'icons/maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable',
+          },
         ],
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
         // Non-Latin font subsets still load on demand when online.
-        globIgnores: ['**/recursive-{cyrillic,cyrillic-ext,latin-ext,vietnamese}-*'],
+        globIgnores: [
+          '**/recursive-{cyrillic,cyrillic-ext,latin-ext,vietnamese}-*',
+        ],
         navigateFallback: '/index.html',
       },
     }),

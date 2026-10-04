@@ -5,7 +5,13 @@ import { useState } from 'react';
 import { type GameOutcome, Grid } from '../components/Grid';
 import { HighScores } from '../components/HighScores';
 import { Timer } from '../components/Timer';
-import { createPuzzle, emptyGrid, isSolved, isValidSize, toggleCell } from '../game/puzzle';
+import {
+  createPuzzle,
+  emptyGrid,
+  isSolved,
+  isValidSize,
+  toggleCell,
+} from '../game/puzzle';
 import { addHighScore, getPersonalBest } from '../lib/high-scores';
 import { getCurrentPlayer } from '../lib/players';
 
@@ -37,7 +43,11 @@ function GamePage() {
   return (
     <div className="relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:px-6">
       {/* key resets the whole game state on restart or size change */}
-      <Game key={`${size}-${round}`} size={size} onRestart={() => setRound((r) => r + 1)} />
+      <Game
+        key={`${size}-${round}`}
+        size={size}
+        onRestart={() => setRound((r) => r + 1)}
+      />
 
       <button
         type="button"
@@ -47,7 +57,11 @@ function GamePage() {
         data-testid="high-scores-toggle"
         className="btn btn-ghost fixed right-3 bottom-8 z-40 bg-surface shadow-lg lg:hidden"
       >
-        {highScoresOpen ? <X className="size-4" aria-hidden /> : <Trophy className="size-4 text-lamp" aria-hidden />}
+        {highScoresOpen ? (
+          <X className="size-4" aria-hidden />
+        ) : (
+          <Trophy className="size-4 text-lamp" aria-hidden />
+        )}
         {highScoresOpen ? 'Close' : 'High scores'}
       </button>
       <aside
@@ -105,20 +119,37 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
       </div>
 
       <div className="flex flex-1 flex-col items-center pt-4 lg:pt-8">
-        <Grid puzzle={puzzle} grid={grid} outcome={outcome} onToggle={handleToggle} />
+        <Grid
+          puzzle={puzzle}
+          grid={grid}
+          outcome={outcome}
+          onToggle={handleToggle}
+        />
         <div className="flex gap-3 pt-6">
           {outcome.result === 'playing' ? (
-            <button type="button" onClick={handleStop} className="btn btn-alert">
+            <button
+              type="button"
+              onClick={handleStop}
+              className="btn btn-alert"
+            >
               <Square className="size-3.5 fill-current" aria-hidden />
               Stop
             </button>
           ) : (
             <>
-              <button type="button" onClick={() => void navigate({ to: '/' })} className="btn btn-ghost">
+              <button
+                type="button"
+                onClick={() => void navigate({ to: '/' })}
+                className="btn btn-ghost"
+              >
                 <House className="size-4" aria-hidden />
                 Home
               </button>
-              <button type="button" onClick={onRestart} className="btn btn-lamp animate-rise">
+              <button
+                type="button"
+                onClick={onRestart}
+                className="btn btn-lamp animate-rise"
+              >
                 <RotateCcw className="size-4" aria-hidden />
                 Restart
               </button>
@@ -126,7 +157,9 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
           )}
         </div>
         <div className="flex-1" />
-        <p className="font-digits mb-24 text-4xl font-bold lg:hidden">{timer}</p>
+        <p className="font-digits mb-24 text-4xl font-bold lg:hidden">
+          {timer}
+        </p>
       </div>
     </>
   );

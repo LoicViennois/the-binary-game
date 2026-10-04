@@ -11,10 +11,14 @@ export class ScoresPage {
 
   async goto(size?: number): Promise<void> {
     await this.page.goto(size ? `/scores?size=${size}` : '/scores');
-    await expect(this.page.getByRole('heading', { name: 'High scores' })).toBeVisible();
+    await expect(
+      this.page.getByRole('heading', { name: 'High scores' }),
+    ).toBeVisible();
   }
 
   sizeTab(size: number): Locator {
-    return this.page.getByRole('navigation', { name: 'Grid size' }).getByRole('link', { name: `${size} x ${size}` });
+    return this.page
+      .getByRole('navigation', { name: 'Grid size' })
+      .getByRole('link', { name: `${size} x ${size}` });
   }
 }

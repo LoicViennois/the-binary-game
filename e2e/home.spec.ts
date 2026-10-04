@@ -22,8 +22,13 @@ test.describe('Home - grid selection', () => {
     await home.selectSize(4);
   });
 
-  test('displays larger grid sizes (7x7 and 8x8) on desktop screens', async ({ isMobile }) => {
-    test.skip(isMobile, 'Large sizes 7x7 and 8x8 are only displayed on desktop');
+  test('displays larger grid sizes (7x7 and 8x8) on desktop screens', async ({
+    isMobile,
+  }) => {
+    test.skip(
+      isMobile,
+      'Large sizes 7x7 and 8x8 are only displayed on desktop',
+    );
 
     await expect(home.gameLink(7)).toBeVisible();
     await expect(home.gameLink(8)).toBeVisible();

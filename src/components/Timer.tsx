@@ -27,7 +27,11 @@ export function Timer({ startedAt, frozenAt, className }: TimerProps) {
   }, [startedAt, frozenAt]);
 
   return (
-    <span ref={ref} data-testid="timer" className={`inline-block tabular-nums ${className ?? ''}`}>
+    <span
+      ref={ref}
+      data-testid="timer"
+      className={`inline-block tabular-nums ${className ?? ''}`}
+    >
       {formatTime(frozenAt ?? 0)}
     </span>
   );

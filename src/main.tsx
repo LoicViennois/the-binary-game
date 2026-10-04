@@ -7,7 +7,11 @@ import './index.css';
 import './lib/theme';
 import { routeTree } from './routeTree.gen';
 
-const router = createRouter({ routeTree, defaultPreload: 'intent', defaultViewTransition: true });
+const router = createRouter({
+  routeTree,
+  defaultPreload: 'intent',
+  defaultViewTransition: true,
+});
 
 declare module '@tanstack/react-router' {
   interface Register {

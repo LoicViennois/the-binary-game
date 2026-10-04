@@ -17,8 +17,12 @@ export class AboutModalPage {
     this.closeButton = this.modal.getByRole('button', { name: 'Close' });
     this.commitLink = this.modal.getByTestId('commit-link');
     this.gplLicenseLink = this.modal.locator('a[href*="gnu.org/licenses/gpl"]');
-    this.githubIssuesLink = this.modal.locator('a[href*="github.com/LoicViennois/The-Binary-Game/issues"]');
-    this.redditFeedbackLink = this.modal.locator('a[href*="reddit.com/message"]');
+    this.githubIssuesLink = this.modal.locator(
+      'a[href*="github.com/LoicViennois/The-Binary-Game/issues"]',
+    );
+    this.redditFeedbackLink = this.modal.locator(
+      'a[href*="reddit.com/message"]',
+    );
   }
 
   async waitForOpen(): Promise<void> {

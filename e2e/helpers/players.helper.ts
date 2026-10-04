@@ -7,7 +7,11 @@ interface SeedScore {
 }
 
 /** Starts the page with the given names known on the device, the first one picked. Reloads keep test changes. */
-export async function seedPlayers(page: Page, names: string[], scores: SeedScore[] = []): Promise<void> {
+export async function seedPlayers(
+  page: Page,
+  names: string[],
+  scores: SeedScore[] = [],
+): Promise<void> {
   await page.addInitScript(
     ({ names, scores }) => {
       if (sessionStorage.getItem('e2e-seeded')) {
@@ -22,7 +26,12 @@ export async function seedPlayers(page: Page, names: string[], scores: SeedScore
       localStorage.setItem(
         'tb_high_scores',
         JSON.stringify(
-          scores.map((s, i) => ({ id: `seed-${i}`, game: s.game, time: s.time, user: { uid: s.name.toLowerCase(), name: s.name } })),
+          scores.map((s, i) => ({
+            id: `seed-${i}`,
+            game: s.game,
+            time: s.time,
+            user: { uid: s.name.toLowerCase(), name: s.name },
+          })),
         ),
       );
     },

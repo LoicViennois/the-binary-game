@@ -7,7 +7,10 @@ import { fileURLToPath } from 'node:url';
 
 import { chromium } from '@playwright/test';
 
-const PUBLIC_DIR = resolve(dirname(fileURLToPath(import.meta.url)), '../public');
+const PUBLIC_DIR = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../public',
+);
 
 const BACKGROUND = '#1a1e28';
 const LAMP = '#ffbf3c';
@@ -33,7 +36,9 @@ function iconSvg({ maskable = false } = {}) {
     const face = bit ? LAMP : OFF;
     const shade = bit ? LAMP_EDGE : OFF_EDGE;
     return [
-      bit ? `<rect x="${x}" y="${y}" width="${tile}" height="${tile}" rx="${radius}" fill="${LAMP}" filter="url(#glow)"/>` : '',
+      bit
+        ? `<rect x="${x}" y="${y}" width="${tile}" height="${tile}" rx="${radius}" fill="${LAMP}" filter="url(#glow)"/>`
+        : '',
       `<rect x="${x}" y="${y + edge}" width="${tile}" height="${tile}" rx="${radius}" fill="${shade}"/>`,
       `<rect x="${x}" y="${y}" width="${tile}" height="${tile}" rx="${radius}" fill="${face}"/>`,
     ].join('');
@@ -56,7 +61,11 @@ const outputs = [
   { file: 'favicon.64.png', svg: iconSvg(), size: 64 },
   { file: 'favicon.512.png', svg: iconSvg(), size: 512 },
   { file: 'apple-touch-icon.png', svg: iconSvg({ maskable: true }), size: 180 },
-  { file: 'icons/maskable-512x512.png', svg: iconSvg({ maskable: true }), size: 512 },
+  {
+    file: 'icons/maskable-512x512.png',
+    svg: iconSvg({ maskable: true }),
+    size: 512,
+  },
   ...[72, 96, 128, 144, 152, 192, 384, 512].map((size) => ({
     file: `icons/icon-${size}x${size}.png`,
     svg: iconSvg(),

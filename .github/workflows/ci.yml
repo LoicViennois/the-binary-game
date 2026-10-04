@@ -2,7 +2,7 @@ name: CI
 
 on:
   pull_request:
-    branches: ["master"]
+    branches: ['main']
 
 permissions:
   contents: read
@@ -22,6 +22,9 @@ jobs:
 
       - name: Lint application
         run: pnpm run lint
+
+      - name: Check formatting
+        run: pnpm run check
 
   build:
     runs-on: ubuntu-latest

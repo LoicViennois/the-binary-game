@@ -5,7 +5,10 @@ export type Theme = 'light' | 'dark';
 
 // Keep in sync with the pre-paint script in index.html.
 const STORAGE_KEY = 'tb_theme';
-const THEME_COLORS: Record<Theme, string> = { light: '#f1f3f7', dark: '#11141b' };
+const THEME_COLORS: Record<Theme, string> = {
+  light: '#f1f3f7',
+  dark: '#11141b',
+};
 
 const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
 
@@ -22,7 +25,9 @@ const theme = createStore<Theme>(storedTheme() ?? systemTheme());
 
 function apply(next: Theme): void {
   document.documentElement.dataset.theme = next;
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLORS[next]);
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute('content', THEME_COLORS[next]);
   theme.set(next);
 }
 

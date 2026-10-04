@@ -31,7 +31,10 @@ function HomePage() {
   const bests = useMemo(() => {
     const uid = current?.uid;
     return new Map(
-      GRID_SIZES.map((size) => [size, rankPlayers(scores, size).find((r) => r.user.uid === uid)?.best]),
+      GRID_SIZES.map((size) => [
+        size,
+        rankPlayers(scores, size).find((r) => r.user.uid === uid)?.best,
+      ]),
     );
   }, [scores, current?.uid]);
 
@@ -53,8 +56,8 @@ function HomePage() {
             Hit the numbers.
           </h2>
           <p className="mb-6 text-ink-soft">
-            Every row and column of the grid is a binary number. Make them all match their targets, as fast as you
-            can.
+            Every row and column of the grid is a binary number. Make them all
+            match their targets, as fast as you can.
           </p>
           <BitDemo />
           <div className="mt-8">

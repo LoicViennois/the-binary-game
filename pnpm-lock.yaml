@@ -221,6 +221,9 @@ importers:
       node:
         specifier: runtime:24.21.0
         version: runtime:24.21.0
+      prettier:
+        specifier: ~3.9.9
+        version: 3.9.9
       tailwindcss:
         specifier: ^4.3.3
         version: 4.3.3

@@ -3,7 +3,10 @@ const PATTERN = [1, 0, 1, 1];
 /** Four little bits, reading 1011. */
 export function Logo({ className }: { className?: string }) {
   return (
-    <span aria-hidden className={`grid grid-cols-2 gap-[3px] ${className ?? ''}`}>
+    <span
+      aria-hidden
+      className={`grid grid-cols-2 gap-[3px] ${className ?? ''}`}
+    >
       {PATTERN.map((bit, i) => (
         <span
           key={i}

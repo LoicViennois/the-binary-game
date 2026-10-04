@@ -22,7 +22,9 @@ test.describe('Navigation & Modals', () => {
     }
   });
 
-  test('sends a game link opened without a name to the name picker, then starts that game', async ({ page }) => {
+  test('sends a game link opened without a name to the name picker, then starts that game', async ({
+    page,
+  }) => {
     await page.goto('/play/4');
     await expect(page).toHaveURL(/\/\?next=4$/);
 
@@ -32,7 +34,10 @@ test.describe('Navigation & Modals', () => {
 
   test('contains valid external GitHub repository link', async () => {
     await expect(home.githubLink).toBeVisible();
-    await expect(home.githubLink).toHaveAttribute('href', 'https://github.com/LoicViennois/The-Binary-Game');
+    await expect(home.githubLink).toHaveAttribute(
+      'href',
+      'https://github.com/LoicViennois/The-Binary-Game',
+    );
     await expect(home.githubLink).toHaveAttribute('target', '_blank');
   });
 
@@ -41,7 +46,7 @@ test.describe('Navigation & Modals', () => {
     await expect(home.buildInfoLink).toHaveText(/^[0-9a-f]{7}$/i);
     await expect(home.buildInfoLink).toHaveAttribute(
       'href',
-      /^https:\/\/github\.com\/LoicViennois\/The-Binary-Game\/commit\/[0-9a-f]{40}$/i
+      /^https:\/\/github\.com\/LoicViennois\/The-Binary-Game\/commit\/[0-9a-f]{40}$/i,
     );
     await expect(home.buildInfoLink).toHaveAttribute('target', '_blank');
 
@@ -62,12 +67,16 @@ test.describe('Navigation & Modals', () => {
     await aboutModal.close();
   });
 
-  test('toggles between light and dark themes and remembers the choice', async ({ page }) => {
+  test('toggles between light and dark themes and remembers the choice', async ({
+    page,
+  }) => {
     const html = page.locator('html');
     const initial = await html.getAttribute('data-theme');
     const other = initial === 'dark' ? 'light' : 'dark';
 
-    await page.getByRole('button', { name: `Switch to ${other} theme` }).click();
+    await page
+      .getByRole('button', { name: `Switch to ${other} theme` })
+      .click();
     await expect(html).toHaveAttribute('data-theme', other);
 
     await page.reload();

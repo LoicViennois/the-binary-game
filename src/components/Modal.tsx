@@ -10,7 +10,13 @@ interface ModalProps {
 }
 
 /** Native modal dialog: focus trapping, Escape and backdrop click close it. */
-export function Modal({ open, onClose, title, children, className }: ModalProps) {
+export function Modal({
+  open,
+  onClose,
+  title,
+  children,
+  className,
+}: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
 

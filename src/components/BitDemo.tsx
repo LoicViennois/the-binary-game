@@ -20,18 +20,26 @@ export function BitDemo() {
   const matched = value === target;
 
   const toggle = (i: number) => {
-    setBits((current) => current.map((bit, j) => (j === i ? ((1 - bit) as Bit) : bit)));
+    setBits((current) =>
+      current.map((bit, j) => (j === i ? ((1 - bit) as Bit) : bit)),
+    );
   };
 
   return (
-    <section aria-label="Try it" className="rounded-3xl bg-surface p-5 shadow-[0_1px_0_var(--line),0_12px_32px_-16px_rgb(0_0_0/0.25)]">
+    <section
+      aria-label="Try it"
+      className="rounded-3xl bg-surface p-5 shadow-[0_1px_0_var(--line),0_12px_32px_-16px_rgb(0_0_0/0.25)]"
+    >
       <p className="mb-4 text-sm text-ink-soft">
-        Each bit is worth double the one to its right. Light up the bits that add up to{' '}
-        <strong className="font-digits text-ink">{target}</strong>.
+        Each bit is worth double the one to its right. Light up the bits that
+        add up to <strong className="font-digits text-ink">{target}</strong>.
       </p>
       <div className="font-digits flex items-center justify-center gap-2 text-2xl">
         {bits.map((bit, i) => (
-          <div key={i} className="flex flex-col items-center gap-1.5 perspective-[400px]">
+          <div
+            key={i}
+            className="flex flex-col items-center gap-1.5 perspective-[400px]"
+          >
             <button
               type="button"
               onClick={() => toggle(i)}
@@ -64,7 +72,10 @@ export function BitDemo() {
           </span>
         </div>
       </div>
-      <p className="mt-3 h-6 text-center text-sm font-semibold" aria-live="polite">
+      <p
+        className="mt-3 h-6 text-center text-sm font-semibold"
+        aria-live="polite"
+      >
         {matched ? (
           <>
             <span className="text-match">That&apos;s it!</span>{' '}
