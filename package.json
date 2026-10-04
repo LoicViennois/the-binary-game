@@ -2,7 +2,7 @@
   "name": "the-binary-game",
   "author": "Loïc Viennois",
   "description": "The Binary Game",
-  "license": "GPLv3",
+  "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@12.9.1",
   "devEngines": {

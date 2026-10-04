@@ -36,7 +36,7 @@ test.describe('Navigation & Modals', () => {
     await expect(home.githubLink).toBeVisible();
     await expect(home.githubLink).toHaveAttribute(
       'href',
-      'https://github.com/LoicViennois/The-Binary-Game',
+      'https://github.com/LoicViennois/the-binary-game',
     );
     await expect(home.githubLink).toHaveAttribute('target', '_blank');
   });
@@ -46,7 +46,7 @@ test.describe('Navigation & Modals', () => {
     await expect(home.buildInfoLink).toHaveText(/^[0-9a-f]{7}$/i);
     await expect(home.buildInfoLink).toHaveAttribute(
       'href',
-      /^https:\/\/github\.com\/LoicViennois\/The-Binary-Game\/commit\/[0-9a-f]{40}$/i,
+      /^https:\/\/github\.com\/LoicViennois\/the-binary-game\/commit\/[0-9a-f]{40}$/i,
     );
     await expect(home.buildInfoLink).toHaveAttribute('target', '_blank');
 
@@ -60,7 +60,7 @@ test.describe('Navigation & Modals', () => {
     await aboutModal.waitForOpen();
 
     await expect(aboutModal.commitLink).toHaveText(/^[0-9a-f]{7}$/i);
-    await expect(aboutModal.gplLicenseLink).toBeVisible();
+    await expect(aboutModal.licenseLink).toBeVisible();
     await expect(aboutModal.githubIssuesLink).toBeVisible();
     await expect(aboutModal.redditFeedbackLink).toBeVisible();
 

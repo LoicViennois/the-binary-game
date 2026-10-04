@@ -1,4 +1,4 @@
-const REPO_URL = 'https://github.com/LoicViennois/The-Binary-Game';
+const REPO_URL = 'https://github.com/LoicViennois/the-binary-game';
 
 export const commitSha = __COMMIT_SHA__;
 export const shortSha = commitSha.slice(0, 7);
