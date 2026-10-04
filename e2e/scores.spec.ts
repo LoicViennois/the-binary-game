@@ -44,6 +44,28 @@ test.describe('High scores page', () => {
     ).toBeVisible();
   });
 
+  test('goes back to the previous page, skipping grid size switches', async ({
+    page,
+  }) => {
+    await page.goto('/');
+    await page
+      .getByRole('banner')
+      .getByRole('link', { name: 'High scores' })
+      .click();
+    await scores.sizeTab(4).click();
+    await expect(page).toHaveURL(/size=4/);
+
+    await page.getByRole('button', { name: 'Back' }).click();
+    await expect(page).toHaveURL(/\/$/);
+  });
+
+  test('goes home when opened directly', async ({ page }) => {
+    await scores.goto(3);
+
+    await page.getByRole('link', { name: 'Back' }).click();
+    await expect(page).toHaveURL(/\/$/);
+  });
+
   test('is reachable from the header', async ({ page }) => {
     await page.goto('/');
     await page
