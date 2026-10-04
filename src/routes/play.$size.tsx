@@ -118,10 +118,12 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
         </div>
       </div>
 
-      {/* Equal outer rows keep the board centred; the mobile timer sits at the bottom of the last one. */}
+      {/* Equal outer rows keep the board centred; the mobile timer sits in the top one, away from the fingers. */}
       <div className="grid flex-1 grid-rows-[1fr_auto_1fr] justify-items-center py-4">
-        <div />
-        <div className="flex flex-col items-center">
+        <p className="font-digits self-center pb-6 text-4xl font-bold lg:hidden">
+          {timer}
+        </p>
+        <div className="row-start-2 flex flex-col items-center">
           <Grid
             puzzle={puzzle}
             grid={grid}
@@ -160,9 +162,6 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
             )}
           </div>
         </div>
-        <p className="font-digits mb-20 self-end text-4xl font-bold lg:hidden">
-          {timer}
-        </p>
       </div>
     </>
   );
