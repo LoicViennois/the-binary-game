@@ -27,7 +27,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             {shortSha}
           </a>
           <br />
-          Copyright &copy; 2020{' '}
+          Copyright &copy; 2026{' '}
           <a
             href="https://github.com/LoicViennois"
             target="_blank"
