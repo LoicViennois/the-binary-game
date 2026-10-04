@@ -2,6 +2,16 @@
 
 @custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
 
+/* Recursive trimmed to the Latin glyphs and axis ranges the app uses (see scripts/subset-font.sh). */
+@font-face {
+  font-family: 'Recursive Variable';
+  font-style: normal;
+  font-display: swap;
+  font-weight: 400 800;
+  src: url('./assets/fonts/recursive-latin-subset.woff2')
+    format('woff2-variations');
+}
+
 /* ---------- Colour tokens: light by default, night via system or toggle ---------- */
 
 :root {

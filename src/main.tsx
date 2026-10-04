@@ -2,7 +2,6 @@ import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
-import '@fontsource-variable/recursive/full.css';
 import './index.css';
 import './lib/theme';
 import { routeTree } from './routeTree.gen';
