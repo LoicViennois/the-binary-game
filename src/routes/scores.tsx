@@ -1,5 +1,10 @@
-import { createFileRoute, Link } from '@tanstack/react-router';
-import { Trophy } from 'lucide-react';
+import {
+  createFileRoute,
+  Link,
+  useCanGoBack,
+  useRouter,
+} from '@tanstack/react-router';
+import { ArrowLeft, Trophy } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { ScoreTable } from '../components/ScoreTable';
@@ -29,6 +34,7 @@ function ScoresPage() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-4 pb-16 lg:pt-10">
+      <BackButton />
       <h2 className="mb-1 flex items-center gap-2 text-3xl font-extrabold tracking-tight">
         <Trophy className="size-7 text-lamp" aria-hidden />
         High scores
@@ -43,6 +49,7 @@ function ScoresPage() {
             key={s}
             to="/scores"
             search={{ size: s }}
+            replace
             aria-current={s === size ? 'page' : undefined}
             className={`font-digits rounded-full px-3.5 py-1.5 text-sm font-bold transition ${
               s === size
@@ -73,5 +80,31 @@ function ScoresPage() {
         )}
       </div>
     </div>
+  );
+}
+
+/** Returns to the previous page, or home when the scores were opened directly. */
+function BackButton() {
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
+  const content = (
+    <>
+      <ArrowLeft className="size-4" aria-hidden />
+      Back
+    </>
+  );
+
+  return canGoBack ? (
+    <button
+      type="button"
+      onClick={() => router.history.back()}
+      className="btn btn-ghost mb-4"
+    >
+      {content}
+    </button>
+  ) : (
+    <Link to="/" className="btn btn-ghost mb-4">
+      {content}
+    </Link>
   );
 }
