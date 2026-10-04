@@ -68,7 +68,7 @@ function GamePage() {
         id="high-scores-panel"
         data-testid="high-scores-panel"
         data-expanded={highScoresOpen}
-        className={`max-lg:absolute max-lg:inset-0 max-lg:z-20 max-lg:bg-bg max-lg:px-4 max-lg:pt-4 max-lg:transition-transform max-lg:duration-300 max-lg:ease-out lg:w-72 lg:shrink-0 lg:pt-6 ${
+        className={`max-lg:absolute max-lg:inset-0 max-lg:z-20 max-lg:bg-bg max-lg:px-4 max-lg:pt-4 max-lg:transition-transform max-lg:duration-300 max-lg:ease-out lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:justify-center lg:py-4 ${
           highScoresOpen ? '' : 'max-lg:translate-x-full'
         }`}
       >
@@ -111,7 +111,7 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
 
   return (
     <>
-      <div className="hidden w-60 shrink-0 pt-6 text-left lg:block">
+      <div className="hidden w-60 shrink-0 flex-col justify-center py-4 text-left lg:flex">
         <div className="rounded-3xl bg-surface p-5 shadow-[0_1px_0_var(--line)]">
           <p className="text-sm font-semibold text-ink-soft">Time</p>
           <p className="font-digits text-4xl font-bold">{timer}</p>
