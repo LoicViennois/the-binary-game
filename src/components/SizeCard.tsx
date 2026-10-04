@@ -21,11 +21,11 @@ export function SizeCard({ size, best }: { size: number; best?: number }) {
     <Link
       to="/play/$size"
       params={{ size }}
-      className="group flex h-full flex-col rounded-3xl bg-surface p-4 shadow-[0_1px_0_var(--line),0_12px_32px_-18px_rgb(0_0_0/0.3)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_1px_0_var(--line),0_20px_40px_-18px_rgb(0_0_0/0.35)] active:translate-y-0 active:scale-[0.98]"
+      className="group flex h-full flex-col items-center rounded-3xl text-center bg-surface p-4 shadow-[0_1px_0_var(--line),0_12px_32px_-18px_rgb(0_0_0/0.3)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_1px_0_var(--line),0_20px_40px_-18px_rgb(0_0_0/0.35)] active:translate-y-0 active:scale-[0.98]"
     >
       <span
         aria-hidden
-        className="mb-4 grid aspect-square w-full max-w-28 gap-[3px] self-center"
+        className="mb-4 grid aspect-square w-full max-w-28 gap-[3px]"
         style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
       >
         {Array.from({ length: size * size }, (_, i) => {
@@ -52,7 +52,7 @@ export function SizeCard({ size, best }: { size: number; best?: number }) {
           Targets up to {2 ** size - 1}
         </span>
       ) : (
-        <span className="mt-2 inline-flex items-baseline gap-1.5 self-start rounded-full bg-lamp px-2.5 py-1 text-lamp-ink">
+        <span className="mt-2 inline-flex items-baseline gap-1.5 rounded-full bg-lamp px-2.5 py-1 text-lamp-ink">
           <span className="text-xs font-semibold">Your best</span>
           <span className="font-digits text-sm font-bold">
             {formatTime(best)}
