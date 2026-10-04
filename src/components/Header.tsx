@@ -19,13 +19,22 @@ export function Header() {
   const [aboutOpen, setAboutOpen] = useState(false);
 
   const name = player?.name ?? '';
-  const shortName = name.length > SHORT_NAME_LENGTH ? `${name.slice(0, SHORT_NAME_LENGTH - 1)}…` : name;
+  const shortName =
+    name.length > SHORT_NAME_LENGTH
+      ? `${name.slice(0, SHORT_NAME_LENGTH - 1)}…`
+      : name;
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between gap-2 bg-bg/80 px-3 backdrop-blur-md lg:h-16 lg:px-6">
-      <Link to="/" className="flex items-center gap-2.5 rounded-lg" aria-label="The Binary Game, home">
+      <Link
+        to="/"
+        className="flex items-center gap-2.5 rounded-lg"
+        aria-label="The Binary Game, home"
+      >
         <Logo />
-        <h1 className="hidden text-lg font-bold tracking-tight whitespace-nowrap sm:block lg:text-xl">The Binary Game</h1>
+        <h1 className="hidden text-lg font-bold tracking-tight whitespace-nowrap sm:block lg:text-xl">
+          The Binary Game
+        </h1>
       </Link>
       <nav className="flex items-center gap-1">
         <Link
@@ -35,10 +44,21 @@ export function Header() {
           <Trophy className="size-4" aria-hidden />
           High scores
         </Link>
-        <a href={repoUrl} target="_blank" rel="noopener" aria-label="GitHub repository" className={`${iconButton} max-sm:hidden`}>
+        <a
+          href={repoUrl}
+          target="_blank"
+          rel="noopener"
+          aria-label="GitHub repository"
+          className={`${iconButton} max-sm:hidden`}
+        >
           <GitHubIcon className="size-5" />
         </a>
-        <button type="button" onClick={() => setAboutOpen(true)} aria-label="About" className={iconButton}>
+        <button
+          type="button"
+          onClick={() => setAboutOpen(true)}
+          aria-label="About"
+          className={iconButton}
+        >
           <Info className="size-5" aria-hidden />
         </button>
         <ThemeToggle />
@@ -49,7 +69,10 @@ export function Header() {
             data-testid="current-player"
             className="ml-1 flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-sm font-semibold transition hover:bg-tint"
           >
-            <span aria-hidden className="grid size-7 place-items-center rounded-full bg-lamp text-xs text-lamp-ink">
+            <span
+              aria-hidden
+              className="grid size-7 place-items-center rounded-full bg-lamp text-xs text-lamp-ink"
+            >
               {name.charAt(0).toUpperCase()}
             </span>
             <span className="hidden lg:inline">{name}</span>

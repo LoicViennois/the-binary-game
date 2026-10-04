@@ -20,7 +20,15 @@ interface PlayerPickerProps {
   onPicked?: () => void;
 }
 
-function NameForm({ label, onPicked, autoFocus }: { label: string; onPicked?: () => void; autoFocus?: boolean }) {
+function NameForm({
+  label,
+  onPicked,
+  autoFocus,
+}: {
+  label: string;
+  onPicked?: () => void;
+  autoFocus?: boolean;
+}) {
   const [name, setName] = useState('');
   const [touched, setTouched] = useState(false);
   const valid = isValidName(name);
@@ -39,7 +47,10 @@ function NameForm({ label, onPicked, autoFocus }: { label: string; onPicked?: ()
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <label htmlFor="player-name" className="mb-1.5 block text-sm font-semibold">
+      <label
+        htmlFor="player-name"
+        className="mb-1.5 block text-sm font-semibold"
+      >
         {label}
       </label>
       <div className="flex gap-2">
@@ -61,7 +72,10 @@ function NameForm({ label, onPicked, autoFocus }: { label: string; onPicked?: ()
           Play
         </button>
       </div>
-      <p id="player-name-hint" className={`mt-1.5 pl-4 text-xs ${showError ? 'text-alert' : 'text-ink-soft'}`}>
+      <p
+        id="player-name-hint"
+        className={`mt-1.5 pl-4 text-xs ${showError ? 'text-alert' : 'text-ink-soft'}`}
+      >
         {NAME_MIN_LENGTH} to {NAME_MAX_LENGTH} letters or digits
       </p>
     </form>
@@ -77,7 +91,9 @@ export function PlayerPicker({ onPicked }: PlayerPickerProps) {
   const [toRemove, setToRemove] = useState<Player | null>(null);
 
   if (players.length === 0) {
-    return <NameForm label="Pick a name to save your scores" onPicked={onPicked} />;
+    return (
+      <NameForm label="Pick a name to save your scores" onPicked={onPicked} />
+    );
   }
 
   const handleSelect = (player: Player) => {
@@ -109,7 +125,11 @@ export function PlayerPicker({ onPicked }: PlayerPickerProps) {
           aria-pressed={editing}
           className="flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1 text-sm font-semibold text-ink-soft transition hover:bg-tint hover:text-ink"
         >
-          {editing ? <Check className="size-4" aria-hidden /> : <Pencil className="size-4" aria-hidden />}
+          {editing ? (
+            <Check className="size-4" aria-hidden />
+          ) : (
+            <Pencil className="size-4" aria-hidden />
+          )}
           {editing ? 'Done' : 'Edit players'}
         </button>
       </div>

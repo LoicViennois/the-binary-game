@@ -32,9 +32,16 @@ export function BitBurst() {
   const [particles] = useState(createParticles);
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
+    >
       {particles.map((p, i) => (
-        <span key={i} style={p.style} className="font-digits absolute animate-float-bit font-bold opacity-0">
+        <span
+          key={i}
+          style={p.style}
+          className="font-digits absolute animate-float-bit font-bold opacity-0"
+        >
           {p.bit}
         </span>
       ))}

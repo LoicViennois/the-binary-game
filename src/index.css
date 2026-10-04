@@ -114,7 +114,9 @@
   html {
     color-scheme: light;
     /* casual, proportional Recursive for UI text */
-    font-variation-settings: 'CASL' 0.6, 'MONO' 0;
+    font-variation-settings:
+      'CASL' 0.6,
+      'MONO' 0;
   }
 
   html[data-theme='dark'] {
@@ -146,7 +148,9 @@
 
 /* Linear monospace Recursive for numbers and bits. */
 @utility font-digits {
-  font-variation-settings: 'CASL' 0, 'MONO' 1;
+  font-variation-settings:
+    'CASL' 0,
+    'MONO' 1;
   font-variant-numeric: tabular-nums;
 }
 

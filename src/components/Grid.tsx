@@ -16,7 +16,15 @@ interface GridProps {
   onToggle: (row: number, col: number) => void;
 }
 
-function Target({ value, valid, testId }: { value: number; valid: boolean; testId: string }) {
+function Target({
+  value,
+  valid,
+  testId,
+}: {
+  value: number;
+  valid: boolean;
+  testId: string;
+}) {
   return (
     <div
       // remount on change so the pop replays each time a line is matched
@@ -32,7 +40,11 @@ function Target({ value, valid, testId }: { value: number; valid: boolean; testI
   );
 }
 
-function ResultCard({ outcome }: { outcome: Exclude<GameOutcome, { result: 'playing' }> }) {
+function ResultCard({
+  outcome,
+}: {
+  outcome: Exclude<GameOutcome, { result: 'playing' }>;
+}) {
   if (outcome.result === 'stopped') {
     return (
       <div className="animate-rise rounded-2xl bg-surface px-6 py-4 shadow-xl">
@@ -48,8 +60,12 @@ function ResultCard({ outcome }: { outcome: Exclude<GameOutcome, { result: 'play
     <div className="animate-rise rounded-2xl bg-surface px-6 py-4 shadow-xl [animation-delay:250ms]">
       <p className="text-2xl font-bold">Solved!</p>
       <p className="font-digits text-3xl font-bold">{formatTime(time)}</p>
-      <p className={`mt-1 text-sm font-semibold ${newBest ? 'text-match' : 'text-ink-soft'}`}>
-        {newBest ? 'New personal best' : `Your best is ${formatTime(previousBest)}`}
+      <p
+        className={`mt-1 text-sm font-semibold ${newBest ? 'text-match' : 'text-ink-soft'}`}
+      >
+        {newBest
+          ? 'New personal best'
+          : `Your best is ${formatTime(previousBest)}`}
       </p>
     </div>
   );
@@ -60,7 +76,9 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
   const playing = outcome.result === 'playing';
   const won = outcome.result === 'won';
   // One extra column/row for the targets; shrink cells on narrow screens.
-  const style = { '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + 1}))` } as CSSProperties;
+  const style = {
+    '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + 1}))`,
+  } as CSSProperties;
 
   return (
     <div className="relative" style={style}>
@@ -79,7 +97,9 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
                     onClick={() => onToggle(r, c)}
                     aria-label={`Row ${r + 1}, column ${c + 1}: ${bit}`}
                     data-lit={bit === 1}
-                    style={won ? { animationDelay: `${(r + c) * 45}ms` } : undefined}
+                    style={
+                      won ? { animationDelay: `${(r + c) * 45}ms` } : undefined
+                    }
                     className={`bit m-auto flex size-[84%] items-center justify-center font-bold ${won ? 'animate-ripple' : ''}`}
                   >
                     <span key={bit} className="inline-block animate-flip">
@@ -89,14 +109,22 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
                 </td>
               ))}
               <td className="border-l-2 border-dashed border-line">
-                <Target testId="row-target" value={puzzle.rowTargets[r] ?? 0} valid={rows[r] === puzzle.rowTargets[r]} />
+                <Target
+                  testId="row-target"
+                  value={puzzle.rowTargets[r] ?? 0}
+                  valid={rows[r] === puzzle.rowTargets[r]}
+                />
               </td>
             </tr>
           ))}
           <tr>
             {puzzle.colTargets.map((target, c) => (
               <td key={c} className="border-t-2 border-dashed border-line">
-                <Target testId="col-target" value={target} valid={cols[c] === target} />
+                <Target
+                  testId="col-target"
+                  value={target}
+                  valid={cols[c] === target}
+                />
               </td>
             ))}
             <td />

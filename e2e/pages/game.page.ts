@@ -19,11 +19,17 @@ export class GamePage {
     this.stopButton = page.getByRole('button', { name: 'Stop' });
     this.homeButton = page.getByRole('button', { name: 'Home' });
     this.restartButton = page.getByRole('button', { name: 'Restart' });
-    this.successOverlay = page.locator('[data-testid="result-overlay"][data-result="success"]');
-    this.failureOverlay = page.locator('[data-testid="result-overlay"][data-result="failure"]');
+    this.successOverlay = page.locator(
+      '[data-testid="result-overlay"][data-result="success"]',
+    );
+    this.failureOverlay = page.locator(
+      '[data-testid="result-overlay"][data-result="failure"]',
+    );
     this.highScoresToggle = page.getByTestId('high-scores-toggle');
     this.highScoresPanel = page.getByTestId('high-scores-panel');
-    this.highScoresTableRows = this.highScoresPanel.getByTestId('high-scores').locator('tbody tr');
+    this.highScoresTableRows = this.highScoresPanel
+      .getByTestId('high-scores')
+      .locator('tbody tr');
     this.gridTable = page.getByTestId('grid');
   }
 

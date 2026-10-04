@@ -33,7 +33,9 @@ function ScoresPage() {
         <Trophy className="size-7 text-lamp" aria-hidden />
         High scores
       </h2>
-      <p className="mb-6 text-ink-soft">Best time of everyone who played on this device.</p>
+      <p className="mb-6 text-ink-soft">
+        Best time of everyone who played on this device.
+      </p>
 
       <nav aria-label="Grid size" className="mb-4 flex flex-wrap gap-1.5">
         {GRID_SIZES.map((s) => (
@@ -43,7 +45,9 @@ function ScoresPage() {
             search={{ size: s }}
             aria-current={s === size ? 'page' : undefined}
             className={`font-digits rounded-full px-3.5 py-1.5 text-sm font-bold transition ${
-              s === size ? 'bg-ink text-bg' : 'text-ink-soft hover:bg-tint hover:text-ink'
+              s === size
+                ? 'bg-ink text-bg'
+                : 'text-ink-soft hover:bg-tint hover:text-ink'
             }`}
           >
             {s} x {s}
@@ -51,7 +55,10 @@ function ScoresPage() {
         ))}
       </nav>
 
-      <div key={size} className="animate-rise rounded-3xl bg-surface p-4 shadow-[0_1px_0_var(--line)] lg:p-6">
+      <div
+        key={size}
+        className="animate-rise rounded-3xl bg-surface p-4 shadow-[0_1px_0_var(--line)] lg:p-6"
+      >
         {rankings.length === 0 ? (
           <div className="py-6 text-center">
             <p className="mb-4 text-ink-soft">

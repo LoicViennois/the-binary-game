@@ -7,12 +7,16 @@ test.describe('High scores page', () => {
   let scores: ScoresPage;
 
   test.beforeEach(async ({ page }) => {
-    await seedPlayers(page, ['Alice', 'Bob'], [
-      { name: 'Alice', game: 3, time: 9000 },
-      { name: 'Alice', game: 3, time: 4000 },
-      { name: 'Bob', game: 3, time: 6000 },
-      { name: 'Bob', game: 4, time: 20000 },
-    ]);
+    await seedPlayers(
+      page,
+      ['Alice', 'Bob'],
+      [
+        { name: 'Alice', game: 3, time: 9000 },
+        { name: 'Alice', game: 3, time: 4000 },
+        { name: 'Bob', game: 3, time: 6000 },
+        { name: 'Bob', game: 4, time: 20000 },
+      ],
+    );
     scores = new ScoresPage(page);
   });
 
@@ -35,12 +39,17 @@ test.describe('High scores page', () => {
     await expect(scores.rows.first()).toContainText('Bob');
 
     await scores.sizeTab(5).click();
-    await expect(page.getByText('Nobody has solved the 5 x 5 grid')).toBeVisible();
+    await expect(
+      page.getByText('Nobody has solved the 5 x 5 grid'),
+    ).toBeVisible();
   });
 
   test('is reachable from the header', async ({ page }) => {
     await page.goto('/');
-    await page.getByRole('banner').getByRole('link', { name: 'High scores' }).click();
+    await page
+      .getByRole('banner')
+      .getByRole('link', { name: 'High scores' })
+      .click();
     await expect(page).toHaveURL(/\/scores/);
   });
 });

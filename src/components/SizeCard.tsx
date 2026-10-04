@@ -35,7 +35,9 @@ export function SizeCard({ size, best }: { size: number; best?: number }) {
               key={i}
               style={{ transitionDelay: `${i * 8}ms` }}
               className={`rounded-[25%] transition-colors duration-300 ${
-                lit ? 'bg-lamp/40 group-hover:bg-lamp group-hover:shadow-[0_0_6px_var(--lamp-glow)]' : 'bg-line'
+                lit
+                  ? 'bg-lamp/40 group-hover:bg-lamp group-hover:shadow-[0_0_6px_var(--lamp-glow)]'
+                  : 'bg-line'
               }`}
             />
           );
@@ -46,7 +48,9 @@ export function SizeCard({ size, best }: { size: number; best?: number }) {
       </span>
       <span className="text-sm font-semibold">{LEVELS[size]}</span>
       <span className="mt-0.5 text-xs text-ink-soft">
-        {best === undefined ? `Targets up to ${2 ** size - 1}` : `Your best ${formatTime(best)}`}
+        {best === undefined
+          ? `Targets up to ${2 ** size - 1}`
+          : `Your best ${formatTime(best)}`}
       </span>
     </Link>
   );

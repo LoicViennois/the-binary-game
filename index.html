@@ -1,44 +1,54 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>TheBinaryGame</title>
+  <head>
+    <meta charset="utf-8" />
+    <title>TheBinaryGame</title>
 
-  <meta content="width=device-width, initial-scale=1" name="viewport">
-  <link href="/favicon.svg" rel="icon" type="image/svg+xml">
-  <link href="/favicon.64.png" rel="icon" type="image/png" sizes="64x64">
-  <link href="/apple-touch-icon.png" rel="apple-touch-icon">
-  <meta content="#f1f3f7" name="theme-color">
-  <script>
-    // Apply the saved or system theme before first paint (see src/lib/theme.ts).
-    (function () {
-      var theme;
-      try { theme = JSON.parse(localStorage.getItem('tb_theme')); } catch (e) {}
-      if (theme !== 'light' && theme !== 'dark') {
-        theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-      document.documentElement.dataset.theme = theme;
-    })();
-  </script>
-  <!-- Matomo -->
-  <script>
-    let _paq = window._paq = window._paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      let u="https://matomo.loicviennois.com/";
-      _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '4']);
-      let d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <!-- End Matomo Code -->
-</head>
-<body>
-<div id="root"></div>
-<noscript>Please enable JavaScript to continue using this application.</noscript>
-<script type="module" src="/src/main.tsx"></script>
-</body>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
+    <link href="/favicon.64.png" rel="icon" type="image/png" sizes="64x64" />
+    <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
+    <meta content="#f1f3f7" name="theme-color" />
+    <script>
+      // Apply the saved or system theme before first paint (see src/lib/theme.ts).
+      (function () {
+        var theme;
+        try {
+          theme = JSON.parse(localStorage.getItem('tb_theme'));
+        } catch (e) {}
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light';
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
+    <!-- Matomo -->
+    <script>
+      let _paq = (window._paq = window._paq || []);
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function () {
+        let u = 'https://matomo.loicviennois.com/';
+        _paq.push(['setTrackerUrl', u + 'matomo.php']);
+        _paq.push(['setSiteId', '4']);
+        let d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0];
+        g.async = true;
+        g.src = u + 'matomo.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript
+      >Please enable JavaScript to continue using this application.</noscript
+    >
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

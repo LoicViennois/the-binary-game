@@ -34,7 +34,9 @@ test.describe('Game Play & Puzzles', () => {
     await expect(gamePage.getBox(0, 0)).toHaveText('0');
   });
 
-  test('stops the game and allows restarting or returning home', async ({ page }) => {
+  test('stops the game and allows restarting or returning home', async ({
+    page,
+  }) => {
     await gamePage.stopGame();
 
     // Verify failure icon and action buttons
@@ -78,14 +80,25 @@ test.describe('Game Play & Puzzles', () => {
     await expect(gamePage.highScoresTableRows.first()).toContainText('Gamer');
   });
 
-  test('toggles the high scores side panel on mobile/small screens', async ({ page }) => {
+  test('toggles the high scores side panel on mobile/small screens', async ({
+    page,
+  }) => {
     await page.setViewportSize({ width: 600, height: 800 });
-    await expect(gamePage.highScoresPanel).toHaveAttribute('data-expanded', 'false');
+    await expect(gamePage.highScoresPanel).toHaveAttribute(
+      'data-expanded',
+      'false',
+    );
 
     await gamePage.toggleHighScores();
-    await expect(gamePage.highScoresPanel).toHaveAttribute('data-expanded', 'true');
+    await expect(gamePage.highScoresPanel).toHaveAttribute(
+      'data-expanded',
+      'true',
+    );
 
     await gamePage.toggleHighScores();
-    await expect(gamePage.highScoresPanel).toHaveAttribute('data-expanded', 'false');
+    await expect(gamePage.highScoresPanel).toHaveAttribute(
+      'data-expanded',
+      'false',
+    );
   });
 });

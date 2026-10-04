@@ -16,7 +16,10 @@ interface HighScoresProps {
 /** Compact top-10 for one grid size, shown beside the game. */
 export function HighScores({ game, playerUid }: HighScoresProps) {
   const scores = useAllScores();
-  const rankings = useMemo(() => rankPlayers(scores, game).slice(0, PANEL_LIMIT), [scores, game]);
+  const rankings = useMemo(
+    () => rankPlayers(scores, game).slice(0, PANEL_LIMIT),
+    [scores, game],
+  );
 
   return (
     <>
@@ -28,7 +31,9 @@ export function HighScores({ game, playerUid }: HighScoresProps) {
         </span>
       </h2>
       {rankings.length === 0 ? (
-        <p className="rounded-xl bg-tint p-4 text-sm text-ink-soft">No times yet. Solve this grid to claim first place.</p>
+        <p className="rounded-xl bg-tint p-4 text-sm text-ink-soft">
+          No times yet. Solve this grid to claim first place.
+        </p>
       ) : (
         <ScoreTable rankings={rankings} playerUid={playerUid} />
       )}
