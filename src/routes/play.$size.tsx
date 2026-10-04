@@ -118,48 +118,49 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col items-center pt-4 lg:pt-8">
-        {/* Spacers centre the board vertically; on desktop it sits a little higher. */}
-        <div className="flex-1" />
-        <Grid
-          puzzle={puzzle}
-          grid={grid}
-          outcome={outcome}
-          onToggle={handleToggle}
-        />
-        <div className="flex gap-3 pt-6">
-          {outcome.result === 'playing' ? (
-            <button
-              type="button"
-              onClick={handleStop}
-              className="btn btn-alert"
-            >
-              <Square className="size-3.5 fill-current" aria-hidden />
-              Stop
-            </button>
-          ) : (
-            <>
+      {/* Equal outer rows keep the board centred; the mobile timer sits at the bottom of the last one. */}
+      <div className="grid flex-1 grid-rows-[1fr_auto_1fr] justify-items-center py-4">
+        <div />
+        <div className="flex flex-col items-center">
+          <Grid
+            puzzle={puzzle}
+            grid={grid}
+            outcome={outcome}
+            onToggle={handleToggle}
+          />
+          <div className="flex gap-3 pt-6">
+            {outcome.result === 'playing' ? (
               <button
                 type="button"
-                onClick={() => void navigate({ to: '/' })}
-                className="btn btn-ghost"
+                onClick={handleStop}
+                className="btn btn-alert"
               >
-                <House className="size-4" aria-hidden />
-                Home
+                <Square className="size-3.5 fill-current" aria-hidden />
+                Stop
               </button>
-              <button
-                type="button"
-                onClick={onRestart}
-                className="btn btn-lamp animate-rise"
-              >
-                <RotateCcw className="size-4" aria-hidden />
-                Restart
-              </button>
-            </>
-          )}
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={() => void navigate({ to: '/' })}
+                  className="btn btn-ghost"
+                >
+                  <House className="size-4" aria-hidden />
+                  Home
+                </button>
+                <button
+                  type="button"
+                  onClick={onRestart}
+                  className="btn btn-lamp animate-rise"
+                >
+                  <RotateCcw className="size-4" aria-hidden />
+                  Restart
+                </button>
+              </>
+            )}
+          </div>
         </div>
-        <div className="flex-1 lg:flex-2" />
-        <p className="font-digits mt-6 mb-24 text-5xl font-bold min-[380px]:text-6xl lg:hidden">
+        <p className="font-digits mb-20 self-end text-4xl font-bold lg:hidden">
           {timer}
         </p>
       </div>
