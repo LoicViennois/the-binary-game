@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
+import { GraduationCap } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { BitDemo } from '../components/BitDemo';
@@ -60,6 +61,9 @@ function HomePage() {
             match their targets, as fast as you can.
           </p>
           <BitDemo />
+          <p className="mt-3 text-center text-sm">
+            <TutorialLink>Learn step by step in the full tutorial</TutorialLink>
+          </p>
           <div className="mt-8">
             <PlayerPicker onPicked={resumeGame} />
           </div>
@@ -72,7 +76,8 @@ function HomePage() {
           <p className="mb-6 text-ink-soft">
             {next !== undefined && !current
               ? `Pick a name to play the ${next} x ${next} grid.`
-              : 'Bigger grids mean bigger numbers. Start small and work your way up.'}
+              : 'Bigger grids mean bigger numbers. Start small and work your way up.'}{' '}
+            <TutorialLink>Need a refresher? Take the tutorial</TutorialLink>
           </p>
 
           <div className="mb-8 rounded-3xl bg-surface p-5 shadow-[0_1px_0_var(--line)]">
@@ -101,5 +106,17 @@ function HomePage() {
         </>
       )}
     </div>
+  );
+}
+
+function TutorialLink({ children }: { children: string }) {
+  return (
+    <Link
+      to="/tutorial"
+      className="inline-flex items-center gap-1.5 font-semibold text-ink underline decoration-lamp decoration-2 underline-offset-2"
+    >
+      <GraduationCap className="size-4" aria-hidden />
+      {children}
+    </Link>
   );
 }

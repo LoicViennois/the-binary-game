@@ -7,13 +7,26 @@ import { BitBurst } from './BitBurst';
 export type GameOutcome =
   | { result: 'playing' }
   | { result: 'stopped' }
-  | { result: 'won'; time: number; previousBest?: number };
+  | { result: 'won'; time?: number; previousBest?: number };
 
 interface GridProps {
   puzzle: Puzzle;
   grid: GridValues;
   outcome: GameOutcome;
   onToggle: (row: number, col: number) => void;
+  /** Shows what each bit is worth, along the top for rows and down the side for columns. */
+  placeValues?: boolean;
+}
+
+function PlaceValue({ value }: { value: number }) {
+  return (
+    <td
+      aria-hidden
+      className="text-center align-middle text-[0.5em] font-semibold text-ink-soft"
+    >
+      {value}
+    </td>
+  );
 }
 
 function Target({
@@ -55,6 +68,13 @@ function ResultCard({
   }
 
   const { time, previousBest } = outcome;
+  if (time === undefined) {
+    return (
+      <div className="animate-rise rounded-2xl bg-surface px-6 py-4 shadow-xl [animation-delay:250ms]">
+        <p className="text-2xl font-bold">Solved!</p>
+      </div>
+    );
+  }
   const newBest = previousBest === undefined || time < previousBest;
   return (
     <div className="animate-rise rounded-2xl bg-surface px-6 py-4 shadow-xl [animation-delay:250ms]">
@@ -71,24 +91,43 @@ function ResultCard({
   );
 }
 
-export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
+export function Grid({
+  puzzle,
+  grid,
+  outcome,
+  onToggle,
+  placeValues = false,
+}: GridProps) {
   const { rows, cols } = totals(grid);
   const playing = outcome.result === 'playing';
   const won = outcome.result === 'won';
-  // One extra column/row for the targets; shrink cells on narrow screens.
+  // One extra column/row for the targets, and the place values when shown; shrink cells on narrow screens.
   const style = {
-    '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + 1}))`,
+    '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + (placeValues ? 1.5 : 1)}))`,
   } as CSSProperties;
+  const placeValue = (i: number) => 2 ** (puzzle.size - 1 - i);
 
   return (
     <div className="relative" style={style}>
       <table
         data-testid="grid"
-        className="font-digits text-[calc(var(--cell)*0.42)] leading-none [&_td]:size-(--cell) [&_td]:p-0"
+        className={`font-digits text-[calc(var(--cell)*0.42)] leading-none [&_td]:size-(--cell) [&_td]:p-0 ${
+          placeValues ? '[&_td:first-child]:w-[calc(var(--cell)*0.5)]!' : ''
+        }`}
       >
         <tbody>
+          {placeValues ? (
+            <tr className="[&_td]:h-[calc(var(--cell)*0.5)]!">
+              <td />
+              {grid.map((_, c) => (
+                <PlaceValue key={c} value={placeValue(c)} />
+              ))}
+              <td />
+            </tr>
+          ) : null}
           {grid.map((cells, r) => (
             <tr key={r}>
+              {placeValues ? <PlaceValue value={placeValue(r)} /> : null}
               {cells.map((bit, c) => (
                 <td key={c} className="perspective-[400px]">
                   <button
@@ -118,6 +157,7 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
             </tr>
           ))}
           <tr>
+            {placeValues ? <td /> : null}
             {puzzle.colTargets.map((target, c) => (
               <td key={c} className="border-t-2 border-dashed border-line">
                 <Target

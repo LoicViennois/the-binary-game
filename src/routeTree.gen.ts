@@ -14,6 +14,7 @@ import { Route as SplatRouteImport } from './routes/$'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as ScoresRouteImport } from './routes/scores'
+import { Route as TutorialRouteImport } from './routes/tutorial'
 import { Route as PlaySizeRouteImport } from './routes/play.$size'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const ScoresRoute = ScoresRouteImport.update({
   path: '/scores',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TutorialRoute = TutorialRouteImport.update({
+  id: '/tutorial',
+  path: '/tutorial',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PlaySizeRoute = PlaySizeRouteImport.update({
   id: '/play/$size',
   path: '/play/$size',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/scores': typeof ScoresRoute
+  '/tutorial': typeof TutorialRoute
   '/play/$size': typeof PlaySizeRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/scores': typeof ScoresRoute
+  '/tutorial': typeof TutorialRoute
   '/play/$size': typeof PlaySizeRoute
 }
 export interface FileRoutesById {
@@ -70,14 +78,24 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/scores': typeof ScoresRoute
+  '/tutorial': typeof TutorialRoute
   '/play/$size': typeof PlaySizeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$' | '/home' | '/login' | '/scores' | '/play/$size'
+  fullPaths:
+    '/' | '/$' | '/home' | '/login' | '/scores' | '/tutorial' | '/play/$size'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$' | '/home' | '/login' | '/scores' | '/play/$size'
-  id: '__root__' | '/' | '/$' | '/home' | '/login' | '/scores' | '/play/$size'
+  to: '/' | '/$' | '/home' | '/login' | '/scores' | '/tutorial' | '/play/$size'
+  id:
+    | '__root__'
+    | '/'
+    | '/$'
+    | '/home'
+    | '/login'
+    | '/scores'
+    | '/tutorial'
+    | '/play/$size'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -86,6 +104,7 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
   ScoresRoute: typeof ScoresRoute
+  TutorialRoute: typeof TutorialRoute
   PlaySizeRoute: typeof PlaySizeRoute
 }
 
@@ -126,6 +145,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ScoresRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tutorial': {
+      id: '/tutorial'
+      path: '/tutorial'
+      fullPath: '/tutorial'
+      preLoaderRoute: typeof TutorialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/play/$size': {
       id: '/play/$size'
       path: '/play/$size'
@@ -142,6 +168,7 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
   ScoresRoute: ScoresRoute,
+  TutorialRoute: TutorialRoute,
   PlaySizeRoute: PlaySizeRoute,
 }
 export const routeTree = rootRouteImport
