@@ -6,7 +6,7 @@ export class AboutModalPage {
   readonly title: Locator;
   readonly closeButton: Locator;
   readonly commitLink: Locator;
-  readonly gplLicenseLink: Locator;
+  readonly licenseLink: Locator;
   readonly githubIssuesLink: Locator;
   readonly redditFeedbackLink: Locator;
 
@@ -16,9 +16,11 @@ export class AboutModalPage {
     this.title = this.modal.getByRole('heading', { level: 2 });
     this.closeButton = this.modal.getByRole('button', { name: 'Close' });
     this.commitLink = this.modal.getByTestId('commit-link');
-    this.gplLicenseLink = this.modal.locator('a[href*="gnu.org/licenses/gpl"]');
+    this.licenseLink = this.modal.locator(
+      'a[href*="github.com/LoicViennois/the-binary-game/blob/main/LICENSE"]',
+    );
     this.githubIssuesLink = this.modal.locator(
-      'a[href*="github.com/LoicViennois/The-Binary-Game/issues"]',
+      'a[href*="github.com/LoicViennois/the-binary-game/issues"]',
     );
     this.redditFeedbackLink = this.modal.locator(
       'a[href*="reddit.com/message"]',
