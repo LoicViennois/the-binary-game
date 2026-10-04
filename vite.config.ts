@@ -30,6 +30,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'script-defer',
       includeAssets: ['favicon.svg', 'favicon.64.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'The Binary Game',
@@ -56,10 +57,6 @@ export default defineConfig({
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
-        // Non-Latin font subsets still load on demand when online.
-        globIgnores: [
-          '**/recursive-{cyrillic,cyrillic-ext,latin-ext,vietnamese}-*',
-        ],
         navigateFallback: '/index.html',
       },
     }),
