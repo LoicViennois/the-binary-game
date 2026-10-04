@@ -1,0 +1,277 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
+/* ---------- Colour tokens: light by default, night via system or toggle ---------- */
+
+:root {
+  --bg: #f1f3f7;
+  --surface: #ffffff;
+  --ink: #1c2230;
+  --ink-soft: #586173;
+  --line: #d8dce4;
+  --key-edge: #c5cad5;
+  --lamp: #ffb21e;
+  --lamp-ink: #2b1d00;
+  --lamp-glow: rgb(255 178 30 / 0.5);
+  --match: #0b8a68;
+  --match-ink: #ffffff;
+  --alert: #c8361f;
+  --tint: rgb(28 34 48 / 0.05);
+}
+
+:root[data-theme='dark'] {
+  --bg: #11141b;
+  --surface: #1a1e28;
+  --ink: #eef0f5;
+  --ink-soft: #9aa3b5;
+  --line: #2b3140;
+  --key-edge: #0a0c11;
+  --lamp: #ffbf3c;
+  --lamp-ink: #2b1d00;
+  --lamp-glow: rgb(255 191 60 / 0.45);
+  --match: #2fd3a2;
+  --match-ink: #062a20;
+  --alert: #ff6b52;
+  --tint: rgb(238 240 245 / 0.05);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-line: var(--line);
+  --color-lamp: var(--lamp);
+  --color-lamp-ink: var(--lamp-ink);
+  --color-match: var(--match);
+  --color-match-ink: var(--match-ink);
+  --color-alert: var(--alert);
+  --color-tint: var(--tint);
+}
+
+@theme {
+  --font-sans: 'Recursive Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --animate-flip: flip 220ms cubic-bezier(0.2, 0.8, 0.3, 1.2);
+  --animate-pop: pop 380ms cubic-bezier(0.3, 1.6, 0.5, 1);
+  --animate-ripple: ripple 700ms ease-out both;
+  --animate-rise: rise 420ms cubic-bezier(0.2, 0.9, 0.3, 1.15) both;
+  --animate-float-bit: float-bit 1.6s ease-out forwards;
+  --animate-blink: blink 1.1s steps(1) infinite;
+
+  @keyframes flip {
+    from {
+      transform: rotateX(90deg);
+      opacity: 0.2;
+    }
+  }
+
+  @keyframes pop {
+    40% {
+      transform: scale(1.18);
+    }
+  }
+
+  @keyframes ripple {
+    35% {
+      transform: scale(1.12);
+      box-shadow: 0 0 24px var(--lamp-glow);
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.96);
+    }
+  }
+
+  @keyframes float-bit {
+    0% {
+      opacity: 0;
+      transform: translate(0, 0) rotate(0) scale(0.6);
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+      transform: translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1);
+    }
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+/* ---------- Base ---------- */
+
+@layer base {
+  html {
+    color-scheme: light;
+    /* casual, proportional Recursive for UI text */
+    font-variation-settings: 'CASL' 0.6, 'MONO' 0;
+  }
+
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+
+  html,
+  body {
+    height: 100%;
+    overflow-x: hidden;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    transition:
+      background-color 250ms,
+      color 250ms;
+  }
+
+  #root {
+    height: 100%;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+}
+
+/* Linear monospace Recursive for numbers and bits. */
+@utility font-digits {
+  font-variation-settings: 'CASL' 0, 'MONO' 1;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  padding: 0.55rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    transform 120ms,
+    background-color 150ms,
+    color 150ms,
+    box-shadow 150ms;
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+}
+
+@utility btn-primary {
+  background-color: var(--ink);
+  color: var(--bg);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 18px -6px var(--ink);
+  }
+}
+
+@utility btn-lamp {
+  background-color: var(--lamp);
+  color: var(--lamp-ink);
+
+  &:hover:not(:disabled) {
+    box-shadow: 0 6px 20px -4px var(--lamp-glow);
+  }
+}
+
+@utility btn-ghost {
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1.5px var(--line);
+
+  &:hover:not(:disabled) {
+    background-color: var(--tint);
+  }
+}
+
+@utility btn-alert {
+  color: var(--alert);
+  box-shadow: inset 0 0 0 1.5px currentColor;
+
+  &:hover:not(:disabled) {
+    background-color: var(--alert);
+    color: var(--surface);
+  }
+}
+
+/*
+ * A bit is a little key with a lamp inside. Lit: warm and glowing.
+ * Switching off fades slowly (the unlit state owns the long transition).
+ */
+@utility bit {
+  border-radius: 22%;
+  background-color: var(--surface);
+  color: var(--ink-soft);
+  box-shadow:
+    0 3px 0 var(--key-edge),
+    0 0 0 1px var(--line);
+  transition:
+    transform 90ms,
+    box-shadow 380ms ease-out,
+    background-color 380ms ease-out,
+    color 380ms ease-out;
+
+  &:enabled {
+    cursor: pointer;
+  }
+
+  &:enabled:hover {
+    transform: translateY(-1px);
+  }
+
+  &:enabled:active {
+    transform: translateY(2px);
+    box-shadow:
+      0 1px 0 var(--key-edge),
+      0 0 0 1px var(--line);
+  }
+
+  &[data-lit='true'] {
+    background-color: var(--lamp);
+    color: var(--lamp-ink);
+    box-shadow:
+      0 3px 0 color-mix(in srgb, var(--lamp) 60%, #7a4a00),
+      0 0 18px var(--lamp-glow);
+    transition-duration: 90ms, 60ms, 60ms, 60ms;
+  }
+}
+
+/* Cross-fade between pages (TanStack Router view transitions). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

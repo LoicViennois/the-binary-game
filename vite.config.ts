@@ -1,0 +1,60 @@
+import { execSync } from 'node:child_process';
+
+import tailwindcss from '@tailwindcss/vite';
+import { tanstackRouter } from '@tanstack/router-plugin/vite';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+
+function resolveCommitSha(): string {
+  if (process.env.VERCEL_GIT_COMMIT_SHA) {
+    return process.env.VERCEL_GIT_COMMIT_SHA;
+  }
+  try {
+    return execSync('git rev-parse HEAD', { encoding: 'utf8' }).trim();
+  } catch {
+    return 'dev';
+  }
+}
+
+const iconSizes = [72, 96, 128, 144, 152, 192, 384, 512];
+
+export default defineConfig({
+  define: {
+    __COMMIT_SHA__: JSON.stringify(resolveCommitSha()),
+  },
+  plugins: [
+    // Must come before the React plugin
+    tanstackRouter({ target: 'react', autoCodeSplitting: true }),
+    react(),
+    tailwindcss(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.svg', 'favicon.64.png', 'apple-touch-icon.png'],
+      manifest: {
+        name: 'The Binary Game',
+        short_name: 'Binary Game',
+        theme_color: '#f1f3f7',
+        background_color: '#f1f3f7',
+        display: 'standalone',
+        scope: '/',
+        start_url: '/',
+        icons: [
+          ...iconSizes.map((size) => ({
+            src: `icons/icon-${size}x${size}.png`,
+            sizes: `${size}x${size}`,
+            type: 'image/png',
+            purpose: 'any',
+          })),
+          { src: 'icons/maskable-512x512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,png,svg,woff2}'],
+        // Non-Latin font subsets still load on demand when online.
+        globIgnores: ['**/recursive-{cyrillic,cyrillic-ext,latin-ext,vietnamese}-*'],
+        navigateFallback: '/index.html',
+      },
+    }),
+  ],
+});
