@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { House, RotateCcw, Square, Trophy, X } from 'lucide-react';
+import { ArrowRight, House, RotateCcw, Square, Trophy, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { type GameOutcome, Grid } from '../components/Grid';
@@ -10,6 +10,8 @@ import {
   emptyGrid,
   isSolved,
   isValidSize,
+  nextSize,
+  SMALL_SCREEN_MAX_SIZE,
   toggleCell,
 } from '../game/puzzle';
 import { addHighScore, getPersonalBest } from '../lib/high-scores';
@@ -106,6 +108,18 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
     setFinalTime(Date.now() - startedAt);
   };
 
+  const next = outcome.result === 'won' ? nextSize(size) : undefined;
+  // Larger grids are not offered on small screens, as on the home page.
+  const nextHiddenOnSmallScreens =
+    next !== undefined && next > SMALL_SCREEN_MAX_SIZE;
+  // Restart stays the main action wherever there is no next game to play.
+  const restartStyle =
+    next === undefined
+      ? 'btn-lamp'
+      : nextHiddenOnSmallScreens
+        ? 'btn-lamp lg:btn-ghost'
+        : 'btn-ghost';
+
   // The displayed time freezes on a win; a stopped game shows the time it was stopped at.
   const timer = <Timer startedAt={startedAt} frozenAt={finalTime} />;
 
@@ -124,44 +138,60 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
         <p className="font-digits self-center pb-6 text-4xl font-bold lg:hidden">
           {timer}
         </p>
-        <div className="row-start-2 flex flex-col items-center lg:col-start-2">
+        <div className="row-start-2 lg:col-start-2">
           <Grid
             puzzle={puzzle}
             grid={grid}
             outcome={outcome}
             onToggle={handleToggle}
           />
-          <div className="flex gap-3 pt-6">
-            {outcome.result === 'playing' ? (
+        </div>
+        {/* Below the board rather than with it, so the board stays put when the buttons change. */}
+        <div className="row-start-3 flex flex-wrap content-start justify-center gap-3 pt-6 lg:col-start-2">
+          {outcome.result === 'playing' ? (
+            <button
+              type="button"
+              onClick={handleStop}
+              className="btn btn-alert"
+            >
+              <Square className="size-3.5 fill-current" aria-hidden />
+              Stop
+            </button>
+          ) : (
+            <>
               <button
                 type="button"
-                onClick={handleStop}
-                className="btn btn-alert"
+                onClick={() => void navigate({ to: '/' })}
+                className="btn btn-ghost"
               >
-                <Square className="size-3.5 fill-current" aria-hidden />
-                Stop
+                <House className="size-4" aria-hidden />
+                Home
               </button>
-            ) : (
-              <>
+              <button
+                type="button"
+                onClick={onRestart}
+                className={`btn animate-rise ${restartStyle}`}
+              >
+                <RotateCcw className="size-4" aria-hidden />
+                Restart
+              </button>
+              {next !== undefined && (
                 <button
                   type="button"
-                  onClick={() => void navigate({ to: '/' })}
-                  className="btn btn-ghost"
+                  onClick={() =>
+                    void navigate({
+                      to: '/play/$size',
+                      params: { size: next },
+                    })
+                  }
+                  className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
                 >
-                  <House className="size-4" aria-hidden />
-                  Home
+                  Next {next} x {next}
+                  <ArrowRight className="size-4" aria-hidden />
                 </button>
-                <button
-                  type="button"
-                  onClick={onRestart}
-                  className="btn btn-lamp animate-rise"
-                >
-                  <RotateCcw className="size-4" aria-hidden />
-                  Restart
-                </button>
-              </>
-            )}
-          </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </>

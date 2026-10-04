@@ -80,6 +80,26 @@ test.describe('Game Play & Puzzles', () => {
     await expect(gamePage.highScoresTableRows.first()).toContainText('Gamer');
   });
 
+  test('offers the next size after a win', async ({ page }) => {
+    await gamePage.solve(3);
+    await expect(gamePage.successOverlay).toBeVisible();
+    await expect(gamePage.restartButton).toBeVisible();
+
+    await gamePage.nextButton.click();
+    await expect(page).toHaveURL(/\/play\/4$/);
+    await expect(gamePage.successOverlay).toBeHidden();
+    await expect(gamePage.stopButton).toBeVisible();
+    await expect(gamePage.gridTable.locator('tr')).toHaveCount(5);
+  });
+
+  test('offers no next game after solving the largest size', async () => {
+    await gamePage.goto(8);
+    await gamePage.solve(8);
+    await expect(gamePage.successOverlay).toBeVisible();
+    await expect(gamePage.restartButton).toBeVisible();
+    await expect(gamePage.nextButton).toHaveCount(0);
+  });
+
   test('toggles the high scores side panel on mobile/small screens', async ({
     page,
   }) => {
