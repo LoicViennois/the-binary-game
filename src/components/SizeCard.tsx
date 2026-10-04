@@ -47,11 +47,18 @@ export function SizeCard({ size, best }: { size: number; best?: number }) {
         {size} x {size}
       </span>
       <span className="text-sm font-semibold">{LEVELS[size]}</span>
-      <span className="mt-0.5 text-xs text-ink-soft">
-        {best === undefined
-          ? `Targets up to ${2 ** size - 1}`
-          : `Your best ${formatTime(best)}`}
-      </span>
+      {best === undefined ? (
+        <span className="mt-0.5 text-xs text-ink-soft">
+          Targets up to {2 ** size - 1}
+        </span>
+      ) : (
+        <span className="mt-2 inline-flex items-baseline gap-1.5 self-start rounded-full bg-lamp px-2.5 py-1 text-lamp-ink">
+          <span className="text-xs font-semibold">Your best</span>
+          <span className="font-digits text-sm font-bold">
+            {formatTime(best)}
+          </span>
+        </span>
+      )}
     </Link>
   );
 }
