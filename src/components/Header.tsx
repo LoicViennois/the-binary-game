@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router';
-import { Info, Trophy } from 'lucide-react';
+import { Info, Settings, Trophy } from 'lucide-react';
 import { useState } from 'react';
 
 import { repoUrl } from '../lib/build-info';
@@ -7,6 +7,7 @@ import { useCurrentPlayer } from '../lib/players';
 import { AboutDialog } from './AboutDialog';
 import { GitHubIcon } from './GitHubIcon';
 import { Logo } from './Logo';
+import { SettingsDialog } from './SettingsDialog';
 import { ThemeToggle } from './ThemeToggle';
 
 const SHORT_NAME_LENGTH = 8;
@@ -17,6 +18,7 @@ const iconButton =
 export function Header() {
   const player = useCurrentPlayer();
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const name = player?.name ?? '';
   const shortName =
@@ -39,10 +41,10 @@ export function Header() {
       <nav className="flex items-center gap-1">
         <Link
           to="/scores"
-          className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-ink-soft transition hover:bg-tint hover:text-ink [&.active]:bg-tint [&.active]:text-ink"
+          className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold whitespace-nowrap max-sm:px-2.5 text-ink-soft transition hover:bg-tint hover:text-ink [&.active]:bg-tint [&.active]:text-ink"
         >
           <Trophy className="size-4" aria-hidden />
-          High scores
+          <span className="max-sm:sr-only">High scores</span>
         </Link>
         <a
           href={repoUrl}
@@ -60,6 +62,14 @@ export function Header() {
           className={iconButton}
         >
           <Info className="size-5" aria-hidden />
+        </button>
+        <button
+          type="button"
+          onClick={() => setSettingsOpen(true)}
+          aria-label="Settings"
+          className={iconButton}
+        >
+          <Settings className="size-5" aria-hidden />
         </button>
         <ThemeToggle />
         {player ? (
@@ -81,6 +91,10 @@ export function Header() {
         ) : null}
       </nav>
       <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
+      <SettingsDialog
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
     </header>
   );
 }

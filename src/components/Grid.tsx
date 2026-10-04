@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 
 import { type Grid as GridValues, type Puzzle, totals } from '../game/puzzle';
 import { formatTime } from '../lib/format-time';
+import { useSettings } from '../lib/settings';
 import { BitBurst } from './BitBurst';
 
 export type GameOutcome =
@@ -40,6 +41,14 @@ function Target({
   );
 }
 
+/** Place value of the bit at `index`, reading left to right or top to bottom. */
+function placeValue(size: number, index: number): number {
+  return 2 ** (size - 1 - index);
+}
+
+const hintText =
+  'text-[calc(var(--cell)*0.24)] font-semibold text-ink-soft select-none';
+
 function ResultCard({
   outcome,
 }: {
@@ -75,9 +84,12 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
   const { rows, cols } = totals(grid);
   const playing = outcome.result === 'playing';
   const won = outcome.result === 'won';
-  // One extra column/row for the targets; shrink cells on narrow screens.
+  const { valueHints } = useSettings();
+  // One extra column/row for the targets, plus a narrower one for the hints; shrink cells on narrow screens.
+  const hintRatio = valueHints ? 0.6 : 0;
   const style = {
-    '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + 1}))`,
+    '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + 1 + hintRatio}))`,
+    '--hint': `calc(var(--cell) * ${hintRatio})`,
   } as CSSProperties;
 
   return (
@@ -86,9 +98,33 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
         data-testid="grid"
         className="font-digits text-[calc(var(--cell)*0.42)] leading-none [&_td]:size-(--cell) [&_td]:p-0"
       >
+        {valueHints ? (
+          <thead aria-hidden data-testid="value-hints">
+            <tr>
+              <td className="h-(--hint)! w-(--hint)!" />
+              {grid.map((_, c) => (
+                <td
+                  key={c}
+                  className={`h-(--hint)! pb-1! text-center align-bottom ${hintText}`}
+                >
+                  {placeValue(puzzle.size, c)}
+                </td>
+              ))}
+              <td className="h-(--hint)!" />
+            </tr>
+          </thead>
+        ) : null}
         <tbody>
           {grid.map((cells, r) => (
             <tr key={r}>
+              {valueHints ? (
+                <td
+                  aria-hidden
+                  className={`w-(--hint)! pr-1! text-right ${hintText}`}
+                >
+                  {placeValue(puzzle.size, r)}
+                </td>
+              ) : null}
               {cells.map((bit, c) => (
                 <td key={c} className="perspective-[400px]">
                   <button
@@ -118,6 +154,7 @@ export function Grid({ puzzle, grid, outcome, onToggle }: GridProps) {
             </tr>
           ))}
           <tr>
+            {valueHints ? <td className="w-(--hint)!" /> : null}
             {puzzle.colTargets.map((target, c) => (
               <td key={c} className="border-t-2 border-dashed border-line">
                 <Target

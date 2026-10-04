@@ -101,4 +101,25 @@ test.describe('Game Play & Puzzles', () => {
       'false',
     );
   });
+
+  test('shows value hints by default and hides them from the settings', async ({
+    page,
+  }) => {
+    const hints = page.getByTestId('value-hints');
+    await expect(hints).toHaveText('421');
+
+    await page
+      .getByRole('banner')
+      .getByRole('button', { name: 'Settings' })
+      .click();
+    const hintsSwitch = page.getByRole('switch', { name: 'Value hints' });
+    await expect(hintsSwitch).toBeChecked();
+    await hintsSwitch.click();
+    await expect(hintsSwitch).not.toBeChecked();
+    await expect(hints).toBeHidden();
+
+    await page.reload();
+    await expect(page.getByTestId('grid')).toBeVisible();
+    await expect(hints).toBeHidden();
+  });
 });
