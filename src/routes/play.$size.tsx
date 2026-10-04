@@ -119,6 +119,8 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
       </div>
 
       <div className="flex flex-1 flex-col items-center pt-4 lg:pt-8">
+        {/* Spacers centre the board vertically; on desktop it sits a little higher. */}
+        <div className="flex-1" />
         <Grid
           puzzle={puzzle}
           grid={grid}
@@ -156,8 +158,8 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
             </>
           )}
         </div>
-        <div className="flex-1" />
-        <p className="font-digits mb-24 text-4xl font-bold lg:hidden">
+        <div className="flex-1 lg:flex-2" />
+        <p className="font-digits mt-6 mb-24 text-5xl font-bold min-[380px]:text-6xl lg:hidden">
           {timer}
         </p>
       </div>
