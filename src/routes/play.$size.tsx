@@ -138,7 +138,7 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
         <p className="font-digits self-center pb-6 text-4xl font-bold lg:hidden">
           {timer}
         </p>
-        <div className="row-start-2 lg:col-start-2">
+        <div className="row-start-2 lg:col-start-2 lg:justify-self-center">
           <Grid
             puzzle={puzzle}
             grid={grid}
