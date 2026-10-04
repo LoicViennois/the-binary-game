@@ -39,7 +39,7 @@ export class HomePage {
 
   async goto(): Promise<void> {
     await this.page.goto('/');
-    await expect(this.page).toHaveTitle('TheBinaryGame');
+    await expect(this.page).toHaveTitle('The Binary Game');
   }
 
   player(name: string): Locator {

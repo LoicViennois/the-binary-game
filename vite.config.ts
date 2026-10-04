@@ -29,8 +29,9 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'script-defer',
+      // Registered from src/lib/update.ts, which asks before activating an update.
+      registerType: 'prompt',
+      injectRegister: false,
       includeAssets: ['favicon.svg', 'favicon.64.png', 'apple-touch-icon.png'],
       manifest: {
         name: 'The Binary Game',
