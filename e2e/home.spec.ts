@@ -21,4 +21,16 @@ test.describe('Home - grid selection', () => {
     await home.goto();
     await home.selectSize(4);
   });
+
+  test('offers the largest grid sizes on desktop only', async ({ page }) => {
+    for (const size of [9, 10, 11]) {
+      await expect(home.gameLink(size)).toBeVisible();
+    }
+
+    await page.setViewportSize({ width: 600, height: 800 });
+    await expect(home.gameLink(8)).toBeVisible();
+    for (const size of [9, 10, 11]) {
+      await expect(home.gameLink(size)).toBeHidden();
+    }
+  });
 });

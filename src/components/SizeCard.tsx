@@ -9,6 +9,9 @@ const LEVELS: Record<number, string> = {
   6: 'Tricky',
   7: 'Hard',
   8: 'Expert',
+  9: 'Master',
+  10: 'Grandmaster',
+  11: 'Legendary',
 };
 
 /** A fixed, pleasant-looking pattern of lit dots for a size preview. */

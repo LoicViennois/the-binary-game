@@ -1,5 +1,18 @@
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { ArrowRight, House, RotateCcw, Square, Trophy, X } from 'lucide-react';
+import {
+  createFileRoute,
+  Link,
+  redirect,
+  useNavigate,
+} from '@tanstack/react-router';
+import {
+  ArrowRight,
+  House,
+  Monitor,
+  RotateCcw,
+  Square,
+  Trophy,
+  X,
+} from 'lucide-react';
 import { useState } from 'react';
 
 import { type GameOutcome, Grid } from '../components/Grid';
@@ -9,6 +22,7 @@ import {
   createPuzzle,
   emptyGrid,
   isSolved,
+  isDesktopOnly,
   isValidSize,
   nextSize,
   toggleCell,
@@ -40,43 +54,68 @@ function GamePage() {
   const { player } = Route.useRouteContext();
   const [round, setRound] = useState(0);
   const [highScoresOpen, setHighScoresOpen] = useState(false);
+  const desktopOnly = isDesktopOnly(size);
 
   return (
-    <div className="relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:grid lg:grid-cols-[15rem_1fr_18rem] lg:grid-rows-[1fr_auto_1fr] lg:gap-y-0 lg:px-6 lg:py-4">
-      {/* key resets the whole game state on restart or size change */}
-      <Game
-        key={`${size}-${round}`}
-        size={size}
-        onRestart={() => setRound((r) => r + 1)}
-      />
+    <>
+      {desktopOnly ? <DesktopOnlyNotice size={size} /> : null}
+      <div
+        className={`relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:grid lg:grid-cols-[15rem_1fr_18rem] lg:grid-rows-[1fr_auto_1fr] lg:gap-y-0 lg:px-6 lg:py-4 lg:[--board-max:min(min(100vw,72rem)_-_39rem,100dvh_-_11rem)] ${desktopOnly ? 'max-lg:hidden' : ''}`}
+      >
+        {/* key resets the whole game state on restart or size change */}
+        <Game
+          key={`${size}-${round}`}
+          size={size}
+          onRestart={() => setRound((r) => r + 1)}
+        />
 
-      <button
-        type="button"
-        onClick={() => setHighScoresOpen((open) => !open)}
-        aria-expanded={highScoresOpen}
-        aria-controls="high-scores-panel"
-        data-testid="high-scores-toggle"
-        className="btn btn-ghost fixed right-3 bottom-8 z-40 bg-surface shadow-lg lg:hidden"
-      >
-        {highScoresOpen ? (
-          <X className="size-4" aria-hidden />
-        ) : (
-          <Trophy className="size-4 text-lamp" aria-hidden />
-        )}
-        {highScoresOpen ? 'Close' : 'High scores'}
-      </button>
-      <aside
-        id="high-scores-panel"
-        data-testid="high-scores-panel"
-        data-expanded={highScoresOpen}
-        className={`max-lg:absolute max-lg:inset-0 max-lg:z-20 max-lg:bg-bg max-lg:px-4 max-lg:pt-4 max-lg:transition-transform max-lg:duration-300 max-lg:ease-out lg:col-start-3 lg:row-start-2 ${
-          highScoresOpen ? '' : 'max-lg:translate-x-full'
-        }`}
-      >
-        <div className="rounded-3xl bg-surface p-4 text-left shadow-[0_1px_0_var(--line)]">
-          <HighScores game={size} playerUid={player.uid} />
-        </div>
-      </aside>
+        <button
+          type="button"
+          onClick={() => setHighScoresOpen((open) => !open)}
+          aria-expanded={highScoresOpen}
+          aria-controls="high-scores-panel"
+          data-testid="high-scores-toggle"
+          className="btn btn-ghost fixed right-3 bottom-8 z-40 bg-surface shadow-lg lg:hidden"
+        >
+          {highScoresOpen ? (
+            <X className="size-4" aria-hidden />
+          ) : (
+            <Trophy className="size-4 text-lamp" aria-hidden />
+          )}
+          {highScoresOpen ? 'Close' : 'High scores'}
+        </button>
+        <aside
+          id="high-scores-panel"
+          data-testid="high-scores-panel"
+          data-expanded={highScoresOpen}
+          className={`max-lg:absolute max-lg:inset-0 max-lg:z-20 max-lg:bg-bg max-lg:px-4 max-lg:pt-4 max-lg:transition-transform max-lg:duration-300 max-lg:ease-out lg:col-start-3 lg:row-start-2 ${
+            highScoresOpen ? '' : 'max-lg:translate-x-full'
+          }`}
+        >
+          <div className="rounded-3xl bg-surface p-4 text-left shadow-[0_1px_0_var(--line)]">
+            <HighScores game={size} playerUid={player.uid} />
+          </div>
+        </aside>
+      </div>
+    </>
+  );
+}
+
+/** Replaces the game on small screens for grids too large to play there. */
+function DesktopOnlyNotice({ size }: { size: number }) {
+  return (
+    <div className="mx-auto max-w-md px-4 pt-10 text-center lg:hidden">
+      <Monitor className="mx-auto mb-4 size-10 text-ink-soft" aria-hidden />
+      <h2 className="mb-2 text-2xl font-extrabold tracking-tight">
+        Only available on desktop
+      </h2>
+      <p className="mb-6 text-ink-soft">
+        The {size} x {size} grid is too large for this screen.
+      </p>
+      <Link to="/" className="btn btn-lamp">
+        <House className="size-4" aria-hidden />
+        Pick another grid
+      </Link>
     </div>
   );
 }
@@ -108,8 +147,15 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
   };
 
   const next = outcome.result === 'won' ? nextSize(size) : undefined;
-  // Restart stays the main action when there is no next game to play.
-  const restartStyle = next === undefined ? 'btn-lamp' : 'btn-ghost';
+  // Larger grids are not offered on small screens, as on the home page.
+  const nextHiddenOnSmallScreens = next !== undefined && isDesktopOnly(next);
+  // Restart stays the main action wherever there is no next game to play.
+  const restartStyle =
+    next === undefined
+      ? 'btn-lamp'
+      : nextHiddenOnSmallScreens
+        ? 'btn-lamp lg:btn-ghost'
+        : 'btn-ghost';
 
   // The displayed time freezes on a win; a stopped game shows the time it was stopped at.
   const timer = <Timer startedAt={startedAt} frozenAt={finalTime} />;
@@ -175,7 +221,7 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
                       params: { size: next },
                     })
                   }
-                  className="btn btn-lamp animate-rise"
+                  className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
                 >
                   Next {next} x {next}
                   <ArrowRight className="size-4" aria-hidden />
