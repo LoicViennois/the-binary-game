@@ -41,7 +41,11 @@ export class GamePage {
   }
 
   getBox(row: number, col: number): Locator {
-    return this.gridTable.locator('tr').nth(row).getByRole('button').nth(col);
+    return this.gridTable
+      .locator('tr:has(button)')
+      .nth(row)
+      .getByRole('button')
+      .nth(col);
   }
 
   async getBoxValue(row: number, col: number): Promise<string> {
