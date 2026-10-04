@@ -41,7 +41,7 @@ function GamePage() {
   const [highScoresOpen, setHighScoresOpen] = useState(false);
 
   return (
-    <div className="relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:px-6">
+    <div className="relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:grid lg:grid-cols-[15rem_1fr_18rem] lg:grid-rows-[1fr_auto_1fr] lg:gap-y-0 lg:px-6 lg:py-4">
       {/* key resets the whole game state on restart or size change */}
       <Game
         key={`${size}-${round}`}
@@ -68,7 +68,7 @@ function GamePage() {
         id="high-scores-panel"
         data-testid="high-scores-panel"
         data-expanded={highScoresOpen}
-        className={`max-lg:absolute max-lg:inset-0 max-lg:z-20 max-lg:bg-bg max-lg:px-4 max-lg:pt-4 max-lg:transition-transform max-lg:duration-300 max-lg:ease-out lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:justify-center lg:py-4 ${
+        className={`max-lg:absolute max-lg:inset-0 max-lg:z-20 max-lg:bg-bg max-lg:px-4 max-lg:pt-4 max-lg:transition-transform max-lg:duration-300 max-lg:ease-out lg:col-start-3 lg:row-start-2 ${
           highScoresOpen ? '' : 'max-lg:translate-x-full'
         }`}
       >
@@ -111,19 +111,20 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
 
   return (
     <>
-      <div className="hidden w-60 shrink-0 flex-col justify-center py-4 text-left lg:flex">
+      <div className="hidden text-left lg:col-start-1 lg:row-start-2 lg:block">
         <div className="rounded-3xl bg-surface p-5 shadow-[0_1px_0_var(--line)]">
           <p className="text-sm font-semibold text-ink-soft">Time</p>
           <p className="font-digits text-4xl font-bold">{timer}</p>
         </div>
       </div>
 
-      {/* Equal outer rows keep the board centred; the mobile timer sits in the top one, away from the fingers. */}
-      <div className="grid flex-1 grid-rows-[1fr_auto_1fr] justify-items-center py-4">
+      {/* Equal outer rows keep the board centred; the mobile timer sits in the top one, away from the fingers.
+          On desktop the page grid takes over, so the side panels line up with the top of the board. */}
+      <div className="grid flex-1 grid-rows-[1fr_auto_1fr] justify-items-center py-4 lg:contents">
         <p className="font-digits self-center pb-6 text-4xl font-bold lg:hidden">
           {timer}
         </p>
-        <div className="row-start-2 flex flex-col items-center">
+        <div className="row-start-2 flex flex-col items-center lg:col-start-2">
           <Grid
             puzzle={puzzle}
             grid={grid}
