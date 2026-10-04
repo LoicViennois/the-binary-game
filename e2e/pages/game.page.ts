@@ -6,6 +6,7 @@ export class GamePage {
   readonly stopButton: Locator;
   readonly homeButton: Locator;
   readonly restartButton: Locator;
+  readonly nextButton: Locator;
   readonly successOverlay: Locator;
   readonly failureOverlay: Locator;
   readonly highScoresToggle: Locator;
@@ -19,6 +20,7 @@ export class GamePage {
     this.stopButton = page.getByRole('button', { name: 'Stop' });
     this.homeButton = page.getByRole('button', { name: 'Home' });
     this.restartButton = page.getByRole('button', { name: 'Restart' });
+    this.nextButton = page.getByRole('button', { name: /^Next/ });
     this.successOverlay = page.locator(
       '[data-testid="result-overlay"][data-result="success"]',
     );
@@ -87,6 +89,7 @@ export class GamePage {
     await expect(this.failureOverlay).toBeVisible();
     await expect(this.restartButton).toBeVisible();
     await expect(this.homeButton).toBeVisible();
+    await expect(this.nextButton).toHaveCount(0);
   }
 
   async restartGame(): Promise<void> {

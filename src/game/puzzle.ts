@@ -14,6 +14,11 @@ export function isValidSize(size: number): boolean {
   return (GRID_SIZES as readonly number[]).includes(size);
 }
 
+/** The size after this one, or undefined for the largest. */
+export function nextSize(size: number): number | undefined {
+  return GRID_SIZES.find((s) => s > size);
+}
+
 export function emptyGrid(size: number): Grid {
   return Array.from({ length: size }, () => Array<Bit>(size).fill(0));
 }

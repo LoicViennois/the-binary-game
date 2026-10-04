@@ -1,5 +1,5 @@
 import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
-import { House, RotateCcw, Square, Trophy, X } from 'lucide-react';
+import { ArrowRight, House, RotateCcw, Square, Trophy, X } from 'lucide-react';
 import { useState } from 'react';
 
 import { type GameOutcome, Grid } from '../components/Grid';
@@ -10,6 +10,8 @@ import {
   emptyGrid,
   isSolved,
   isValidSize,
+  nextSize,
+  SMALL_SCREEN_MAX_SIZE,
   toggleCell,
 } from '../game/puzzle';
 import { addHighScore, getPersonalBest } from '../lib/high-scores';
@@ -106,6 +108,18 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
     setFinalTime(Date.now() - startedAt);
   };
 
+  const next = outcome.result === 'won' ? nextSize(size) : undefined;
+  // Larger grids are not offered on small screens, as on the home page.
+  const nextHiddenOnSmallScreens =
+    next !== undefined && next > SMALL_SCREEN_MAX_SIZE;
+  // Restart stays the main action wherever there is no next game to play.
+  const restartStyle =
+    next === undefined
+      ? 'btn-lamp'
+      : nextHiddenOnSmallScreens
+        ? 'btn-lamp lg:btn-ghost'
+        : 'btn-ghost';
+
   // The displayed time freezes on a win; a stopped game shows the time it was stopped at.
   const timer = <Timer startedAt={startedAt} frozenAt={finalTime} />;
 
@@ -131,7 +145,7 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
             outcome={outcome}
             onToggle={handleToggle}
           />
-          <div className="flex gap-3 pt-6">
+          <div className="flex flex-wrap justify-center gap-3 pt-6">
             {outcome.result === 'playing' ? (
               <button
                 type="button"
@@ -154,11 +168,26 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
                 <button
                   type="button"
                   onClick={onRestart}
-                  className="btn btn-lamp animate-rise"
+                  className={`btn animate-rise ${restartStyle}`}
                 >
                   <RotateCcw className="size-4" aria-hidden />
                   Restart
                 </button>
+                {next !== undefined && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      void navigate({
+                        to: '/play/$size',
+                        params: { size: next },
+                      })
+                    }
+                    className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
+                  >
+                    Next {next} x {next}
+                    <ArrowRight className="size-4" aria-hidden />
+                  </button>
+                )}
               </>
             )}
           </div>
