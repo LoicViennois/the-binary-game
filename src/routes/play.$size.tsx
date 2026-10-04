@@ -138,59 +138,60 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
         <p className="font-digits self-center pb-6 text-4xl font-bold lg:hidden">
           {timer}
         </p>
-        <div className="row-start-2 flex flex-col items-center lg:col-start-2">
+        <div className="row-start-2 lg:col-start-2">
           <Grid
             puzzle={puzzle}
             grid={grid}
             outcome={outcome}
             onToggle={handleToggle}
           />
-          <div className="flex flex-wrap justify-center gap-3 pt-6">
-            {outcome.result === 'playing' ? (
+        </div>
+        {/* Below the board rather than with it, so the board stays put when the buttons change. */}
+        <div className="row-start-3 flex flex-wrap content-start justify-center gap-3 pt-6 lg:col-start-2">
+          {outcome.result === 'playing' ? (
+            <button
+              type="button"
+              onClick={handleStop}
+              className="btn btn-alert"
+            >
+              <Square className="size-3.5 fill-current" aria-hidden />
+              Stop
+            </button>
+          ) : (
+            <>
               <button
                 type="button"
-                onClick={handleStop}
-                className="btn btn-alert"
+                onClick={() => void navigate({ to: '/' })}
+                className="btn btn-ghost"
               >
-                <Square className="size-3.5 fill-current" aria-hidden />
-                Stop
+                <House className="size-4" aria-hidden />
+                Home
               </button>
-            ) : (
-              <>
+              <button
+                type="button"
+                onClick={onRestart}
+                className={`btn animate-rise ${restartStyle}`}
+              >
+                <RotateCcw className="size-4" aria-hidden />
+                Restart
+              </button>
+              {next !== undefined && (
                 <button
                   type="button"
-                  onClick={() => void navigate({ to: '/' })}
-                  className="btn btn-ghost"
+                  onClick={() =>
+                    void navigate({
+                      to: '/play/$size',
+                      params: { size: next },
+                    })
+                  }
+                  className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
                 >
-                  <House className="size-4" aria-hidden />
-                  Home
+                  Next {next} x {next}
+                  <ArrowRight className="size-4" aria-hidden />
                 </button>
-                <button
-                  type="button"
-                  onClick={onRestart}
-                  className={`btn animate-rise ${restartStyle}`}
-                >
-                  <RotateCcw className="size-4" aria-hidden />
-                  Restart
-                </button>
-                {next !== undefined && (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      void navigate({
-                        to: '/play/$size',
-                        params: { size: next },
-                      })
-                    }
-                    className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
-                  >
-                    Next {next} x {next}
-                    <ArrowRight className="size-4" aria-hidden />
-                  </button>
-                )}
-              </>
-            )}
-          </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </>
