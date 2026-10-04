@@ -5,7 +5,7 @@ import { useMemo } from 'react';
 import { BitDemo } from '../components/BitDemo';
 import { PlayerPicker } from '../components/PlayerPicker';
 import { SizeCard } from '../components/SizeCard';
-import { GRID_SIZES, isValidSize, SMALL_SCREEN_MAX_SIZE } from '../game/puzzle';
+import { GRID_SIZES, isValidSize } from '../game/puzzle';
 import { rankPlayers, useAllScores } from '../lib/high-scores';
 import { useCurrentPlayer, usePlayers } from '../lib/players';
 
@@ -91,7 +91,7 @@ function HomePage() {
                   <li
                     key={size}
                     style={{ animationDelay: `${i * 50}ms` }}
-                    className={`animate-rise ${size > SMALL_SCREEN_MAX_SIZE ? 'max-lg:hidden' : ''}`}
+                    className="animate-rise"
                   >
                     <SizeCard size={size} best={bests.get(size)} />
                   </li>

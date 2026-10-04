@@ -11,7 +11,6 @@ import {
   isSolved,
   isValidSize,
   nextSize,
-  SMALL_SCREEN_MAX_SIZE,
   toggleCell,
 } from '../game/puzzle';
 import { addHighScore, getPersonalBest } from '../lib/high-scores';
@@ -109,16 +108,8 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
   };
 
   const next = outcome.result === 'won' ? nextSize(size) : undefined;
-  // Larger grids are not offered on small screens, as on the home page.
-  const nextHiddenOnSmallScreens =
-    next !== undefined && next > SMALL_SCREEN_MAX_SIZE;
-  // Restart stays the main action wherever there is no next game to play.
-  const restartStyle =
-    next === undefined
-      ? 'btn-lamp'
-      : nextHiddenOnSmallScreens
-        ? 'btn-lamp lg:btn-ghost'
-        : 'btn-ghost';
+  // Restart stays the main action when there is no next game to play.
+  const restartStyle = next === undefined ? 'btn-lamp' : 'btn-ghost';
 
   // The displayed time freezes on a win; a stopped game shows the time it was stopped at.
   const timer = <Timer startedAt={startedAt} frozenAt={finalTime} />;
@@ -184,7 +175,7 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
                       params: { size: next },
                     })
                   }
-                  className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
+                  className="btn btn-lamp animate-rise"
                 >
                   Next {next} x {next}
                   <ArrowRight className="size-4" aria-hidden />

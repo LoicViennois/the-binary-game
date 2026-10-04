@@ -1,5 +1,4 @@
 export const GRID_SIZES = [3, 4, 5, 6, 7, 8] as const;
-export const SMALL_SCREEN_MAX_SIZE = 6;
 
 export type Bit = 0 | 1;
 export type Grid = Bit[][];
