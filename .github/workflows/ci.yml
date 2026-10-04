@@ -54,7 +54,7 @@ jobs:
           cache: true
 
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install --with-deps --only-shell chromium
 
       - name: Run E2E tests
         run: pnpm run e2e
