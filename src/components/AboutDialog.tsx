@@ -17,7 +17,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
       title="About"
       className="w-[min(40rem,calc(100%-2rem))]"
     >
-      <div className="space-y-4 text-sm leading-relaxed [&_a]:font-semibold [&_a]:underline [&_a]:decoration-lamp [&_a]:decoration-2 [&_a]:underline-offset-2">
+      <div className="space-y-4 text-sm leading-relaxed [&_a]:font-semibold [&_a]:underline [&_a]:decoration-lamp [&_a]:decoration-2 [&_a]:underline-offset-2 [&_a]:whitespace-nowrap">
         <div className="flex items-center gap-3">
           <Logo className="shrink-0" />
           <p>
@@ -53,7 +53,8 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             </h3>
             <ul className="space-y-1 text-ink-soft">
               <li>
-                Found a bug or have an idea?{' '}
+                Found a bug or have an idea?
+                <br />
                 <a
                   href={`${repoUrl}/issues/new`}
                   target="_blank"
@@ -64,7 +65,8 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
                 </a>
               </li>
               <li>
-                Want to say hi?{' '}
+                Want to say hi?
+                <br />
                 <a
                   href="https://www.reddit.com/message/compose/?to=LoicViennois"
                   target="_blank"
@@ -82,7 +84,9 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               Buy me a coffee
             </h3>
             <p className="text-ink-soft">
-              The game is free and always will be. If you enjoy it, you can{' '}
+              The game is free and always will be. If you enjoy it, a coffee is
+              much appreciated, no pressure!
+              <br />
               <a
                 href={sponsorUrl}
                 target="_blank"
@@ -90,9 +94,8 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
                 data-testid="sponsor-link"
                 className="text-ink"
               >
-                support me on GitHub Sponsors
+                Support me on GitHub Sponsors
               </a>
-              , no pressure!
             </p>
           </section>
         </div>
