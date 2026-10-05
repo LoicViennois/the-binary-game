@@ -10,18 +10,15 @@ const THEME_COLORS: Record<Theme, string> = {
   dark: '#11141b',
 };
 
-const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
-function systemTheme(): Theme {
-  return systemQuery.matches ? 'dark' : 'light';
-}
+// Dark by default, regardless of the system preference.
+const DEFAULT_THEME: Theme = 'dark';
 
 function storedTheme(): Theme | null {
   const stored = readJson<Theme>(STORAGE_KEY);
   return stored === 'light' || stored === 'dark' ? stored : null;
 }
 
-const theme = createStore<Theme>(storedTheme() ?? systemTheme());
+const theme = createStore<Theme>(storedTheme() ?? DEFAULT_THEME);
 
 function apply(next: Theme): void {
   document.documentElement.dataset.theme = next;
@@ -30,13 +27,6 @@ function apply(next: Theme): void {
     ?.setAttribute('content', THEME_COLORS[next]);
   theme.set(next);
 }
-
-// Follow the system until the player picks a theme.
-systemQuery.addEventListener('change', () => {
-  if (!storedTheme()) {
-    apply(systemTheme());
-  }
-});
 
 apply(theme.get());
 

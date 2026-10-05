@@ -12,18 +12,16 @@
     <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
     <link href="/favicon.64.png" rel="icon" type="image/png" sizes="64x64" />
     <link href="/apple-touch-icon.png" rel="apple-touch-icon" />
-    <meta content="#f1f3f7" name="theme-color" />
+    <meta content="#11141b" name="theme-color" />
     <script>
-      // Apply the saved or system theme before first paint (see src/lib/theme.ts).
+      // Apply the saved theme (dark by default) before first paint (see src/lib/theme.ts).
       (function () {
         var theme;
         try {
           theme = JSON.parse(localStorage.getItem('tb_theme'));
         } catch (e) {}
         if (theme !== 'light' && theme !== 'dark') {
-          theme = matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light';
+          theme = 'dark';
         }
         document.documentElement.dataset.theme = theme;
       })();

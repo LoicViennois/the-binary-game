@@ -71,19 +71,24 @@ test.describe('Navigation & Modals', () => {
     await aboutModal.close();
   });
 
-  test('toggles between light and dark themes and remembers the choice', async ({
+  test('defaults to the dark theme even when the system prefers light', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ colorScheme: 'light' });
+    await page.reload();
+    await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  });
+
+  test('switches to the light theme and remembers the choice', async ({
     page,
   }) => {
     const html = page.locator('html');
-    const initial = await html.getAttribute('data-theme');
-    const other = initial === 'dark' ? 'light' : 'dark';
+    await expect(html).toHaveAttribute('data-theme', 'dark');
 
-    await page
-      .getByRole('button', { name: `Switch to ${other} theme` })
-      .click();
-    await expect(html).toHaveAttribute('data-theme', other);
+    await page.getByRole('button', { name: 'Switch to light theme' }).click();
+    await expect(html).toHaveAttribute('data-theme', 'light');
 
     await page.reload();
-    await expect(html).toHaveAttribute('data-theme', other);
+    await expect(html).toHaveAttribute('data-theme', 'light');
   });
 });
