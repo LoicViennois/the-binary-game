@@ -78,9 +78,12 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             </li>
           </ul>
         </div>
-        <p className="flex items-start gap-2 text-ink-soft">
-          <Coffee className="mt-0.5 size-4 shrink-0" aria-hidden />
-          <span>
+        <div className="rounded-2xl bg-tint p-4">
+          <h3 className="mb-1 flex items-center gap-2 font-bold">
+            <Coffee className="size-4" aria-hidden />
+            Buy me a coffee
+          </h3>
+          <p className="text-ink-soft">
             The game is free and always will be. If you enjoy it, you can{' '}
             <a
               href={sponsorUrl}
@@ -89,11 +92,11 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               data-testid="sponsor-link"
               className="text-ink"
             >
-              buy me a coffee
+              support me on GitHub Sponsors
             </a>
             , no pressure!
-          </span>
-        </p>
+          </p>
+        </div>
       </div>
     </Modal>
   );
