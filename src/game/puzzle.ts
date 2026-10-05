@@ -1,5 +1,10 @@
-export const GRID_SIZES = [3, 4, 5, 6, 7, 8] as const;
-export const SMALL_SCREEN_MAX_SIZE = 6;
+export const GRID_SIZES = [3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
+/** Larger grids do not fit a phone screen, so they are only offered on desktop. */
+export const SMALL_SCREEN_MAX_SIZE = 8;
+
+export function isDesktopOnly(size: number): boolean {
+  return size > SMALL_SCREEN_MAX_SIZE;
+}
 
 export type Bit = 0 | 1;
 export type Grid = Bit[][];

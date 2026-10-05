@@ -44,6 +44,21 @@ test.describe('High scores page', () => {
     ).toBeVisible();
   });
 
+  test('tells small screens that the largest grids are desktop only', async ({
+    page,
+  }) => {
+    const hint = page.getByText('The 9 x 9 grid is only available on desktop');
+    const playLink = page.getByRole('link', { name: 'Play 9 x 9' });
+
+    await scores.goto(9);
+    await expect(playLink).toBeVisible();
+    await expect(hint).toBeHidden();
+
+    await page.setViewportSize({ width: 600, height: 800 });
+    await expect(hint).toBeVisible();
+    await expect(playLink).toBeHidden();
+  });
+
   test('goes back to the previous page, skipping grid size switches', async ({
     page,
   }) => {

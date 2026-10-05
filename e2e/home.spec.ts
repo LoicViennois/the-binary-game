@@ -13,7 +13,7 @@ test.describe('Home - grid selection', () => {
   });
 
   test('displays available grid sizes and navigates to the selected game', async () => {
-    for (const size of [3, 4, 5, 6]) {
+    for (const size of [3, 4, 5, 6, 7, 8]) {
       await expect(home.gameLink(size)).toBeVisible();
     }
 
@@ -22,16 +22,15 @@ test.describe('Home - grid selection', () => {
     await home.selectSize(4);
   });
 
-  test('displays larger grid sizes (7x7 and 8x8) on desktop screens', async ({
-    isMobile,
-  }) => {
-    test.skip(
-      isMobile,
-      'Large sizes 7x7 and 8x8 are only displayed on desktop',
-    );
+  test('offers the largest grid sizes on desktop only', async ({ page }) => {
+    for (const size of [9, 10, 11]) {
+      await expect(home.gameLink(size)).toBeVisible();
+    }
 
-    await expect(home.gameLink(7)).toBeVisible();
+    await page.setViewportSize({ width: 600, height: 800 });
     await expect(home.gameLink(8)).toBeVisible();
-    await home.selectSize(7);
+    for (const size of [9, 10, 11]) {
+      await expect(home.gameLink(size)).toBeHidden();
+    }
   });
 });

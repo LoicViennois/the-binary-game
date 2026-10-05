@@ -93,11 +93,35 @@ test.describe('Game Play & Puzzles', () => {
   });
 
   test('offers no next game after solving the largest size', async () => {
-    await gamePage.goto(8);
-    await gamePage.solve(8);
+    await gamePage.goto(11);
+    await gamePage.solve(11);
     await expect(gamePage.successOverlay).toBeVisible();
     await expect(gamePage.restartButton).toBeVisible();
     await expect(gamePage.nextButton).toHaveCount(0);
+  });
+
+  test('offers the desktop-only next size on desktop only', async ({
+    page,
+  }) => {
+    await gamePage.goto(8);
+    await gamePage.solve(8);
+    await expect(gamePage.nextButton).toBeVisible();
+
+    await page.setViewportSize({ width: 600, height: 800 });
+    await expect(gamePage.nextButton).toBeHidden();
+    await expect(gamePage.restartButton).toBeVisible();
+  });
+
+  test('shows a desktop-only notice instead of large grids on small screens', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 600, height: 800 });
+    await gamePage.goto(9);
+
+    await expect(
+      page.getByRole('heading', { name: 'Only available on desktop' }),
+    ).toBeVisible();
+    await expect(gamePage.gridTable).toBeHidden();
   });
 
   test('toggles the high scores side panel on mobile/small screens', async ({

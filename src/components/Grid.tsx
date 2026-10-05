@@ -33,10 +33,13 @@ function Target({
   value,
   valid,
   testId,
+  small,
 }: {
   value: number;
   valid: boolean;
   testId: string;
+  /** Shrinks the number so four digits fit the cell. */
+  small: boolean;
 }) {
   return (
     <div
@@ -45,8 +48,8 @@ function Target({
       data-testid={testId}
       data-valid={valid}
       className={`m-auto flex size-[84%] items-center justify-center rounded-[22%] font-bold transition-colors ${
-        valid ? 'animate-pop bg-match text-match-ink' : 'text-ink'
-      }`}
+        small ? 'text-[0.75em]' : ''
+      } ${valid ? 'animate-pop bg-match text-match-ink' : 'text-ink'}`}
     >
       {value}
     </div>
@@ -102,10 +105,14 @@ export function Grid({
   const playing = outcome.result === 'playing';
   const won = outcome.result === 'won';
   // One extra column/row for the targets, and the place values when shown; shrink cells on narrow screens.
+  // A page can also cap the whole board with --board-max, so large grids fit beside its panels.
+  const cells = puzzle.size + (placeValues ? 1.5 : 1);
   const style = {
-    '--cell': `min(64px, calc((100vw - 1.5rem) / ${puzzle.size + (placeValues ? 1.5 : 1)}))`,
+    '--cell': `min(64px, calc((100vw - 1.5rem) / ${cells}), calc(var(--board-max, 100vmax) / ${cells}))`,
   } as CSSProperties;
   const placeValue = (i: number) => 2 ** (puzzle.size - 1 - i);
+  // Targets of the largest grids can reach four digits.
+  const smallTargets = 2 ** puzzle.size - 1 >= 1000;
 
   return (
     <div className="relative" style={style}>
@@ -152,6 +159,7 @@ export function Grid({
                   testId="row-target"
                   value={puzzle.rowTargets[r] ?? 0}
                   valid={rows[r] === puzzle.rowTargets[r]}
+                  small={smallTargets}
                 />
               </td>
             </tr>
@@ -164,6 +172,7 @@ export function Grid({
                   testId="col-target"
                   value={target}
                   valid={cols[c] === target}
+                  small={smallTargets}
                 />
               </td>
             ))}
