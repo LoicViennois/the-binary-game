@@ -36,8 +36,8 @@ export default defineConfig({
       manifest: {
         name: 'The Binary Game',
         short_name: 'Binary Game',
-        theme_color: '#f1f3f7',
-        background_color: '#f1f3f7',
+        theme_color: '#11141b',
+        background_color: '#11141b',
         display: 'standalone',
         scope: '/',
         start_url: '/',
