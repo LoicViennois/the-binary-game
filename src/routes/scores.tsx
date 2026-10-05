@@ -8,7 +8,7 @@ import { ArrowLeft, Monitor, Trophy } from 'lucide-react';
 import { useMemo } from 'react';
 
 import { ScoreTable } from '../components/ScoreTable';
-import { GRID_SIZES, isDesktopOnly, isValidSize } from '../game/puzzle';
+import { GRID_SIZES, isLargeScreenOnly, isValidSize } from '../game/puzzle';
 import { rankPlayers, useAllScores } from '../lib/high-scores';
 import { useCurrentPlayer } from '../lib/players';
 
@@ -31,7 +31,7 @@ function ScoresPage() {
   const current = useCurrentPlayer();
   const scores = useAllScores();
   const rankings = useMemo(() => rankPlayers(scores, size), [scores, size]);
-  const desktopOnly = isDesktopOnly(size);
+  const largeScreenOnly = isLargeScreenOnly(size);
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-4 pb-16 lg:pt-10">
@@ -75,7 +75,7 @@ function ScoresPage() {
             <Link
               to="/play/$size"
               params={{ size }}
-              className={`btn btn-lamp ${desktopOnly ? 'max-lg:hidden' : ''}`}
+              className={`btn btn-lamp ${largeScreenOnly ? 'max-md:hidden' : ''}`}
             >
               Play {size} x {size}
             </Link>
@@ -83,10 +83,10 @@ function ScoresPage() {
         ) : (
           <ScoreTable rankings={rankings} playerUid={current?.uid} showSolves />
         )}
-        {desktopOnly ? (
-          <p className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-tint p-3 text-sm font-semibold text-ink-soft lg:hidden">
+        {largeScreenOnly ? (
+          <p className="mt-2 flex items-center justify-center gap-2 rounded-xl bg-tint p-3 text-sm font-semibold text-ink-soft md:hidden">
             <Monitor className="size-4 shrink-0" aria-hidden />
-            The {size} x {size} grid is only available on desktop.
+            The {size} x {size} grid is only available on tablet and desktop.
           </p>
         ) : null}
       </div>

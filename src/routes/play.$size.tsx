@@ -22,7 +22,7 @@ import {
   createPuzzle,
   emptyGrid,
   isSolved,
-  isDesktopOnly,
+  isLargeScreenOnly,
   isValidSize,
   nextSize,
   toggleCell,
@@ -54,13 +54,13 @@ function GamePage() {
   const { player } = Route.useRouteContext();
   const [round, setRound] = useState(0);
   const [highScoresOpen, setHighScoresOpen] = useState(false);
-  const desktopOnly = isDesktopOnly(size);
+  const largeScreenOnly = isLargeScreenOnly(size);
 
   return (
     <>
-      {desktopOnly ? <DesktopOnlyNotice size={size} /> : null}
+      {largeScreenOnly ? <LargeScreenOnlyNotice size={size} /> : null}
       <div
-        className={`relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:grid lg:grid-cols-[15rem_1fr_18rem] lg:grid-rows-[1fr_auto_1fr] lg:gap-y-0 lg:px-6 lg:py-4 lg:[--board-max:min(min(100vw,72rem)_-_39rem,100dvh_-_11rem)] ${desktopOnly ? 'max-lg:hidden' : ''}`}
+        className={`relative mx-auto flex h-full max-w-6xl gap-6 overflow-x-clip lg:grid lg:grid-cols-[15rem_1fr_18rem] lg:grid-rows-[1fr_auto_1fr] lg:gap-y-0 lg:px-6 lg:py-4 lg:[--board-max:min(min(100vw,72rem)_-_39rem,100dvh_-_11rem)] ${largeScreenOnly ? 'max-md:hidden' : ''}`}
       >
         {/* key resets the whole game state on restart or size change */}
         <Game
@@ -101,13 +101,13 @@ function GamePage() {
   );
 }
 
-/** Replaces the game on small screens for grids too large to play there. */
-function DesktopOnlyNotice({ size }: { size: number }) {
+/** Replaces the game on phones for grids too large to play there. */
+function LargeScreenOnlyNotice({ size }: { size: number }) {
   return (
-    <div className="mx-auto max-w-md px-4 pt-10 text-center lg:hidden">
+    <div className="mx-auto max-w-md px-4 pt-10 text-center md:hidden">
       <Monitor className="mx-auto mb-4 size-10 text-ink-soft" aria-hidden />
       <h2 className="mb-2 text-2xl font-extrabold tracking-tight">
-        Only available on desktop
+        Only available on tablet and desktop
       </h2>
       <p className="mb-6 text-ink-soft">
         The {size} x {size} grid is too large for this screen.
@@ -148,13 +148,14 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
 
   const next = outcome.result === 'won' ? nextSize(size) : undefined;
   // Larger grids are not offered on small screens, as on the home page.
-  const nextHiddenOnSmallScreens = next !== undefined && isDesktopOnly(next);
+  const nextHiddenOnSmallScreens =
+    next !== undefined && isLargeScreenOnly(next);
   // Restart stays the main action wherever there is no next game to play.
   const restartStyle =
     next === undefined
       ? 'btn-lamp'
       : nextHiddenOnSmallScreens
-        ? 'btn-lamp lg:btn-ghost'
+        ? 'btn-lamp md:btn-ghost'
         : 'btn-ghost';
 
   // The displayed time freezes on a win; a stopped game shows the time it was stopped at.
@@ -221,7 +222,7 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
                       params: { size: next },
                     })
                   }
-                  className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-lg:hidden' : ''}`}
+                  className={`btn btn-lamp animate-rise ${nextHiddenOnSmallScreens ? 'max-md:hidden' : ''}`}
                 >
                   Next {next} x {next}
                   <ArrowRight className="size-4" aria-hidden />

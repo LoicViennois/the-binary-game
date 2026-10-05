@@ -22,7 +22,14 @@ test.describe('Home - grid selection', () => {
     await home.selectSize(4);
   });
 
-  test('offers the largest grid sizes on desktop only', async ({ page }) => {
+  test('offers the largest grid sizes on tablet and desktop only', async ({
+    page,
+  }) => {
+    for (const size of [9, 10, 11]) {
+      await expect(home.gameLink(size)).toBeVisible();
+    }
+
+    await page.setViewportSize({ width: 768, height: 1024 });
     for (const size of [9, 10, 11]) {
       await expect(home.gameLink(size)).toBeVisible();
     }
