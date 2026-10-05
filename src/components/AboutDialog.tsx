@@ -1,4 +1,6 @@
-import { commitUrl, repoUrl, shortSha } from '../lib/build-info';
+import { Coffee } from 'lucide-react';
+
+import { commitUrl, repoUrl, shortSha, sponsorUrl } from '../lib/build-info';
 import { Modal } from './Modal';
 
 interface AboutDialogProps {
@@ -76,6 +78,22 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             </li>
           </ul>
         </div>
+        <p className="flex items-start gap-2 text-ink-soft">
+          <Coffee className="mt-0.5 size-4 shrink-0" aria-hidden />
+          <span>
+            The game is free and always will be. If you enjoy it, you can{' '}
+            <a
+              href={sponsorUrl}
+              target="_blank"
+              rel="noopener"
+              data-testid="sponsor-link"
+              className="text-ink"
+            >
+              buy me a coffee
+            </a>
+            , no pressure!
+          </span>
+        </p>
       </div>
     </Modal>
   );

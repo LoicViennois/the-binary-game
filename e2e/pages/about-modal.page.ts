@@ -9,6 +9,7 @@ export class AboutModalPage {
   readonly licenseLink: Locator;
   readonly githubIssuesLink: Locator;
   readonly redditFeedbackLink: Locator;
+  readonly sponsorLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -25,6 +26,7 @@ export class AboutModalPage {
     this.redditFeedbackLink = this.modal.locator(
       'a[href*="reddit.com/message"]',
     );
+    this.sponsorLink = this.modal.getByTestId('sponsor-link');
   }
 
   async waitForOpen(): Promise<void> {
