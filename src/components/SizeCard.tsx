@@ -55,8 +55,10 @@ export function SizeCard({ size, best }: { size: number; best?: number }) {
           Targets up to {2 ** size - 1}
         </span>
       ) : (
-        <span className="mt-2 inline-flex items-baseline gap-1.5 rounded-full bg-lamp px-2.5 py-1 text-lamp-ink">
-          <span className="text-xs font-semibold">Your best</span>
+        <span className="mt-2 inline-flex flex-wrap items-center justify-center gap-x-1.5 rounded-full bg-lamp px-2.5 py-1 text-center text-lamp-ink">
+          <span className="text-xs font-semibold whitespace-nowrap">
+            Your best
+          </span>
           <span className="font-digits text-sm font-bold">
             {formatTime(best)}
           </span>
