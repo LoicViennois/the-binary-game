@@ -26,6 +26,7 @@
   --lamp-glow: rgb(255 178 30 / 0.5);
   --match: #0b8a68;
   --match-ink: #ffffff;
+  --match-glow: rgb(11 138 104 / 0.4);
   --alert: #c8361f;
   --tint: rgb(28 34 48 / 0.05);
 }
@@ -42,6 +43,7 @@
   --lamp-glow: rgb(255 191 60 / 0.45);
   --match: #2fd3a2;
   --match-ink: #062a20;
+  --match-glow: rgb(47 211 162 / 0.35);
   --alert: #ff6b52;
   --tint: rgb(238 240 245 / 0.05);
 }
@@ -265,6 +267,32 @@
       0 3px 0 color-mix(in srgb, var(--lamp) 60%, #7a4a00),
       0 0 18px var(--lamp-glow);
     transition-duration: 90ms, 60ms, 60ms, 60ms;
+  }
+}
+
+/*
+ * A target is a raised key too, but not a pressable one: it stays put.
+ * Once its line adds up, it lights up with a soft green glow.
+ */
+@utility target {
+  border-radius: 22%;
+  background-color: var(--surface);
+  color: var(--ink);
+  box-shadow:
+    0 3px 0 var(--key-edge),
+    0 0 0 1px var(--line);
+  transition:
+    box-shadow 380ms ease-out,
+    background-color 380ms ease-out,
+    color 380ms ease-out;
+
+  &[data-valid='true'] {
+    background-color: var(--match);
+    color: var(--match-ink);
+    box-shadow:
+      0 3px 0 color-mix(in srgb, var(--match) 60%, #002a1f),
+      0 0 14px var(--match-glow);
+    transition-duration: 120ms;
   }
 }
 

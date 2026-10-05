@@ -47,9 +47,9 @@ function Target({
       key={String(valid)}
       data-testid={testId}
       data-valid={valid}
-      className={`m-auto flex size-[84%] items-center justify-center rounded-[22%] font-bold transition-colors ${
+      className={`target m-auto flex size-[84%] items-center justify-center font-bold ${
         small ? 'text-[0.75em]' : ''
-      } ${valid ? 'animate-pop bg-match text-match-ink' : 'text-ink'}`}
+      } ${valid ? 'animate-pop' : ''}`}
     >
       {value}
     </div>
