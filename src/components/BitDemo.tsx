@@ -61,8 +61,9 @@ export function BitDemo() {
           <output
             key={String(matched)}
             aria-live="polite"
-            className={`grid size-12 place-items-center rounded-[22%] font-bold ${
-              matched ? 'animate-pop bg-match text-match-ink' : 'text-ink'
+            data-valid={matched}
+            className={`target grid size-12 place-items-center font-bold ${
+              matched ? 'animate-pop' : ''
             }`}
           >
             {value}
