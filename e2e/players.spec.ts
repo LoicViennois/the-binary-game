@@ -38,7 +38,7 @@ test.describe('Players', () => {
     test('picking a name shows the grids and the name in the header', async () => {
       await home.pickNewName('Tester');
 
-      await expect(home.currentPlayer).toContainText('Tester');
+      await expect(home.currentPlayer).toHaveAccessibleName(/Tester/);
       await expect(home.player('Tester')).toHaveAttribute(
         'aria-pressed',
         'true',
@@ -72,7 +72,7 @@ test.describe('Players', () => {
 
       await home.player('Bob').click();
       await expect(home.player('Bob')).toHaveAttribute('aria-pressed', 'true');
-      await expect(home.currentPlayer).toContainText('Bob');
+      await expect(home.currentPlayer).toHaveAccessibleName(/Bob/);
     });
 
     test('remembers names after reload and reuses an existing name instead of duplicating it', async ({
