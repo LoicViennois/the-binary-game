@@ -31,7 +31,7 @@ export class AboutModalPage {
 
   async waitForOpen(): Promise<void> {
     await expect(this.modal).toBeVisible();
-    await expect(this.title).toHaveText('Licence notice');
+    await expect(this.title).toHaveText('About');
   }
 
   async close(): Promise<void> {
