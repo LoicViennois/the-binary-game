@@ -41,7 +41,7 @@ test.describe('Navigation & Modals', () => {
     await expect(home.githubLink).toHaveAttribute('target', '_blank');
   });
 
-  test('contains valid build-info link in bottom right corner with short sha', async () => {
+  test('contains valid build-info link in bottom left corner with short sha', async () => {
     await expect(home.buildInfo).toBeVisible();
     await expect(home.buildInfoLink).toHaveText(/^[0-9a-f]{7}$/i);
     await expect(home.buildInfoLink).toHaveAttribute(

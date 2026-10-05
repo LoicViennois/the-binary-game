@@ -4,7 +4,7 @@ export function BuildInfo() {
   return (
     <div
       data-testid="build-info"
-      className="fixed right-2 bottom-1.5 z-30 rounded-full bg-bg/80 px-2 py-0.5 text-xs text-ink-soft backdrop-blur-sm"
+      className="fixed bottom-2 left-2 z-30 rounded-full bg-bg/80 px-2 py-0.5 text-xs text-ink-soft backdrop-blur-sm"
     >
       Build{' '}
       <a
