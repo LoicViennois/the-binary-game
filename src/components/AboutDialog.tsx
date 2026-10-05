@@ -85,7 +85,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             </h3>
             <p className="text-ink-soft">
               The game is free and always will be. If you enjoy it, a coffee is
-              much appreciated, no pressure!
+              much appreciated!
               <br />
               <a
                 href={sponsorUrl}
