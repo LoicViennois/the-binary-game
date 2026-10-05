@@ -44,13 +44,19 @@ test.describe('High scores page', () => {
     ).toBeVisible();
   });
 
-  test('tells small screens that the largest grids are desktop only', async ({
+  test('tells phones that the largest grids are tablet and desktop only', async ({
     page,
   }) => {
-    const hint = page.getByText('The 9 x 9 grid is only available on desktop');
+    const hint = page.getByText(
+      'The 9 x 9 grid is only available on tablet and desktop',
+    );
     const playLink = page.getByRole('link', { name: 'Play 9 x 9' });
 
     await scores.goto(9);
+    await expect(playLink).toBeVisible();
+    await expect(hint).toBeHidden();
+
+    await page.setViewportSize({ width: 768, height: 1024 });
     await expect(playLink).toBeVisible();
     await expect(hint).toBeHidden();
 

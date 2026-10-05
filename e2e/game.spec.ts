@@ -100,11 +100,14 @@ test.describe('Game Play & Puzzles', () => {
     await expect(gamePage.nextButton).toHaveCount(0);
   });
 
-  test('offers the desktop-only next size on desktop only', async ({
+  test('offers the large-screen-only next size on tablet and desktop only', async ({
     page,
   }) => {
     await gamePage.goto(8);
     await gamePage.solve(8);
+    await expect(gamePage.nextButton).toBeVisible();
+
+    await page.setViewportSize({ width: 768, height: 1024 });
     await expect(gamePage.nextButton).toBeVisible();
 
     await page.setViewportSize({ width: 600, height: 800 });
@@ -112,16 +115,30 @@ test.describe('Game Play & Puzzles', () => {
     await expect(gamePage.restartButton).toBeVisible();
   });
 
-  test('shows a desktop-only notice instead of large grids on small screens', async ({
+  test('shows a large-screen-only notice instead of large grids on phones', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 600, height: 800 });
     await gamePage.goto(9);
 
     await expect(
-      page.getByRole('heading', { name: 'Only available on desktop' }),
+      page.getByRole('heading', {
+        name: 'Only available on tablet and desktop',
+      }),
     ).toBeVisible();
     await expect(gamePage.gridTable).toBeHidden();
+  });
+
+  test('lets tablets play the largest grid', async ({ page }) => {
+    await page.setViewportSize({ width: 768, height: 1024 });
+    await gamePage.goto(11);
+
+    await expect(gamePage.gridTable).toBeVisible();
+    await expect(
+      page.getByRole('heading', {
+        name: 'Only available on tablet and desktop',
+      }),
+    ).toBeHidden();
   });
 
   test('toggles the high scores side panel on mobile/small screens', async ({
