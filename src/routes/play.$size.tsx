@@ -75,7 +75,7 @@ function GamePage() {
           aria-expanded={highScoresOpen}
           aria-controls="high-scores-panel"
           data-testid="high-scores-toggle"
-          className="btn btn-ghost fixed right-3 bottom-8 z-40 bg-surface shadow-lg lg:hidden"
+          className="btn btn-ghost fixed right-3 bottom-3 z-40 bg-surface shadow-lg lg:hidden"
         >
           {highScoresOpen ? (
             <X className="size-4" aria-hidden />
