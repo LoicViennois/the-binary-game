@@ -9,20 +9,12 @@ import { GitHubIcon } from './GitHubIcon';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 
-const SHORT_NAME_LENGTH = 8;
-
 const iconButton =
   'grid size-9 cursor-pointer place-items-center rounded-full text-ink-soft transition hover:bg-tint hover:text-ink active:scale-90';
 
 export function Header() {
   const player = useCurrentPlayer();
   const [aboutOpen, setAboutOpen] = useState(false);
-
-  const name = player?.name ?? '';
-  const shortName =
-    name.length > SHORT_NAME_LENGTH
-      ? `${name.slice(0, SHORT_NAME_LENGTH - 1)}…`
-      : name;
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 flex h-14 items-center justify-between gap-2 bg-bg/80 px-3 backdrop-blur-md lg:h-16 lg:px-6">
@@ -65,18 +57,17 @@ export function Header() {
         {player ? (
           <Link
             to="/"
-            title="Switch player"
+            title={`${player.name} · Switch player`}
+            aria-label={`Switch player, currently ${player.name}`}
             data-testid="current-player"
-            className="ml-1 flex items-center gap-2 rounded-full py-1 pr-3 pl-1 text-sm font-semibold transition hover:bg-tint"
+            className="ml-1 grid size-9 place-items-center rounded-full text-sm font-semibold transition hover:bg-tint"
           >
             <span
               aria-hidden
               className="grid size-7 place-items-center rounded-full bg-lamp text-xs text-lamp-ink"
             >
-              {name.charAt(0).toUpperCase()}
+              {player.name.charAt(0).toUpperCase()}
             </span>
-            <span className="hidden lg:inline">{name}</span>
-            <span className="lg:hidden">{shortName}</span>
           </Link>
         ) : null}
       </nav>
