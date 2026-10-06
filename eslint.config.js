@@ -9,6 +9,7 @@ export default defineConfig([
   globalIgnores([
     'dist',
     'dev-dist',
+    '.claude/worktrees',
     'playwright-report',
     'test-results',
     'src/routeTree.gen.ts',
