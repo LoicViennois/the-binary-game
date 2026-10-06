@@ -23,6 +23,8 @@
   --key-edge: #c5cad5;
   --lamp: #ffb21e;
   --lamp-ink: #2b1d00;
+  /* lamp hue dark enough for text on the surface */
+  --lamp-text: #9a6200;
   --lamp-glow: rgb(255 178 30 / 0.5);
   --match: #0b8a68;
   --match-ink: #ffffff;
@@ -40,6 +42,7 @@
   --key-edge: #0a0c11;
   --lamp: #ffbf3c;
   --lamp-ink: #2b1d00;
+  --lamp-text: var(--lamp);
   --lamp-glow: rgb(255 191 60 / 0.45);
   --match: #2fd3a2;
   --match-ink: #062a20;
@@ -56,6 +59,7 @@
   --color-line: var(--line);
   --color-lamp: var(--lamp);
   --color-lamp-ink: var(--lamp-ink);
+  --color-lamp-text: var(--lamp-text);
   --color-match: var(--match);
   --color-match-ink: var(--match-ink);
   --color-alert: var(--alert);
