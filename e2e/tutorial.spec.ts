@@ -27,6 +27,24 @@ test.describe('Tutorial', () => {
     await expect(page).toHaveURL(/\/tutorial$/);
   });
 
+  test('makes 1 with a single bit, with nothing to count again', async ({
+    page,
+  }) => {
+    await clearStorage(page);
+    await page.goto('/tutorial');
+
+    const row = page.getByRole('region', { name: 'Try it' });
+    await row.getByRole('button', { name: 'Bit worth 1: off' }).click();
+    await expect(row.getByTestId('row-target')).toHaveAttribute(
+      'data-valid',
+      'true',
+    );
+    await expect(row).toContainText('That’s it!');
+    await expect(row.getByRole('button', { name: /again|Next/ })).toHaveCount(
+      0,
+    );
+  });
+
   test('counts in binary on a single row, from 1 bit up to 5', async ({
     page,
   }) => {
@@ -47,13 +65,19 @@ test.describe('Tutorial', () => {
     await expect(
       row.getByRole('button', { name: 'Bit worth 2: off' }),
     ).toBeFocused();
+    await expect(
+      row.getByRole('button', { name: 'Bit worth 1: off' }),
+    ).toBeVisible();
+    await expect(row).toContainText('Sum: 0');
 
-    await row.getByRole('button', { name: 'Bit worth 1: on' }).click();
     await row.getByRole('button', { name: 'Bit worth 2: off' }).click();
     await row.getByRole('button', { name: 'Next: make 3' }).click();
+    await row.getByRole('button', { name: 'Bit worth 2: off' }).click();
     await row.getByRole('button', { name: 'Bit worth 1: off' }).click();
     await expect(row).toContainText('Sum: 2 + 1 = 3');
     await expect(row).toContainText('You counted to 3 in binary!');
+    await row.getByRole('button', { name: 'Count again' }).click();
+    await expect(target).toHaveText(/1$/);
 
     await page.goto('/tutorial?step=5');
     await expect(row.getByRole('button', { name: /^Bit worth/ })).toHaveCount(
