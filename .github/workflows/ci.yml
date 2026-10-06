@@ -9,7 +9,7 @@ permissions:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: namespace-profile-linux-4cpu
 
     steps:
       - name: Checkout repository
@@ -27,7 +27,7 @@ jobs:
         run: pnpm run check
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: namespace-profile-linux-4cpu
 
     steps:
       - name: Checkout repository
@@ -42,7 +42,7 @@ jobs:
         run: pnpm run build
 
   test-e2e:
-    runs-on: ubuntu-latest
+    runs-on: namespace-profile-linux-4cpu
 
     steps:
       - name: Checkout repository
