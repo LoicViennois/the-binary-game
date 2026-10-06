@@ -83,15 +83,7 @@ export function BitRow({
         style={style}
         className="font-digits mx-auto grid w-fit items-center gap-x-2 text-[calc(var(--cell)*0.5)]"
       >
-        {bits.map((_, i) => (
-          <span
-            key={i}
-            aria-hidden
-            className="mb-1.5 text-center text-xs text-ink-soft"
-          >
-            {placeValue(i)}
-          </span>
-        ))}
+        <span aria-hidden style={{ gridColumn: `span ${size}` }} />
         <StackedNote to="down">target</StackedNote>
         <span aria-hidden />
 
@@ -115,8 +107,8 @@ export function BitRow({
             key={String(matched)}
             data-testid="row-target"
             data-valid={matched}
-            className={`grid size-(--cell) place-items-center rounded-[22%] font-bold ${
-              matched ? 'animate-pop bg-match text-match-ink' : 'text-ink'
+            className={`target grid size-(--cell) place-items-center font-bold ${
+              matched ? 'animate-pop' : ''
             }`}
           >
             <span className="sr-only">Target: </span>
