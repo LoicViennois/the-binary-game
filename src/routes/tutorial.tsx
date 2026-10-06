@@ -2,7 +2,7 @@ import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 
-import { BitDemo } from '../components/BitDemo';
+import { BitRow } from '../components/BitRow';
 import { type GameOutcome, Grid } from '../components/Grid';
 import {
   createPuzzle,
@@ -13,35 +13,86 @@ import {
 } from '../game/puzzle';
 
 interface Step {
+  part: 1 | 2;
   title: string;
   intro: string;
-  /** Grid size to practise on; the first step is a single row. */
-  size?: number;
-  placeValues?: boolean;
+  /** A single row of this many bits, counting through `sequence` or with random targets. */
+  row?: { size: number; sequence?: readonly number[]; prompt?: string };
+  /** A grid of this size to practise on. */
+  grid?: { size: number };
 }
+
+const PARTS = { 1: 'Count in binary', 2: 'Play the game' } as const;
+
+const countTo = (n: number) => Array.from({ length: n }, (_, i) => i + 1);
 
 const STEPS = [
   {
-    title: 'Read a binary number',
+    part: 1,
+    title: 'One bit',
     intro:
-      'A binary number is a row of bits, each one 0 or 1. Each bit is worth double the one to its right, so a number is the sum of its lit bits.',
+      'A bit is a tiny switch: it is either 0 (off) or 1 (on). On its own, a lit bit is worth 1.',
+    row: {
+      size: 1,
+      sequence: [1],
+      prompt: 'Light up the bit to make the target on the right.',
+    },
   },
   {
+    part: 1,
+    title: 'Two bits',
+    intro:
+      'Add a bit on the left and it is worth double: 2. A binary number is the sum of its lit bits, so two bits count from 0 to 3.',
+    row: {
+      size: 2,
+      sequence: countTo(3),
+      prompt: 'Count from 1 to 3: make each target on the right in turn.',
+    },
+  },
+  {
+    part: 1,
+    title: 'Three bits',
+    intro:
+      'One more bit on the left, worth 4, takes you up to 7. As you count, watch the pattern: the right bit flips every number, the middle one every 2 numbers, the left one every 4.',
+    row: {
+      size: 3,
+      sequence: countTo(7),
+      prompt: 'Count from 1 to 7: make each target on the right in turn.',
+    },
+  },
+  {
+    part: 1,
+    title: 'Four bits',
+    intro:
+      'Worths keep doubling: 8, 4, 2, 1, so four bits go up to 15. Tip: start from the left. Light the biggest bit that fits in the target, then make the rest with smaller bits.',
+    row: { size: 4 },
+  },
+  {
+    part: 1,
+    title: 'Five bits',
+    intro:
+      'A fifth bit is worth 16, and five bits reach 31. Same trick: biggest bit first, then fill in what is left. You can now make any number!',
+    row: { size: 5 },
+  },
+  {
+    part: 2,
     title: 'Rows and columns',
     intro:
-      'In the game, every row reads left to right and every column reads top to bottom. Light the bits so each row matches the target on its right and each column matches the target below it. The small numbers show what each bit is worth.',
-    size: 2,
-    placeValues: true,
+      'The game is a grid where every row and every column is a binary number. Rows read left to right, columns top to bottom. Light the bits so each row matches the target on its right and each column matches the target below it.',
+    grid: { size: 2 },
   },
   {
+    part: 2,
     title: 'A real grid',
     intro:
-      'Same rules with one more bit, so targets go up to 7. This is how the game looks, without the timer. Tip: set the rows first, then check the columns.',
-    size: 3,
+      'Same rules with one more bit, so targets go up to 7. This is how the game looks, without the timer. Tip: set the rows first, then fix the columns.',
+    grid: { size: 3 },
   },
 ] as const satisfies readonly Step[];
 
 const FIRST_GAME_SIZE = GRID_SIZES[0];
+
+const stepSearch = (step: number) => (step === 1 ? {} : { step });
 
 interface TutorialSearch {
   step?: number;
@@ -63,6 +114,8 @@ function TutorialPage() {
   const last = step === STEPS.length;
   const headingRef = useRef<HTMLHeadingElement>(null);
   const firstRender = useRef(true);
+  const partSteps = STEPS.filter((s) => s.part === current.part);
+  const stepInPart = step - STEPS.findIndex((s) => s.part === current.part);
 
   // Move focus to the new step so keyboard and screen reader users start reading from its top.
   useEffect(() => {
@@ -75,27 +128,52 @@ function TutorialPage() {
 
   return (
     <div className="mx-auto max-w-xl px-4 pt-4 pb-16 lg:pt-10">
-      <p className="mb-1 text-sm font-semibold text-ink-soft">Tutorial</p>
-      <ol aria-label="Tutorial steps" className="mb-6 flex gap-2">
-        {STEPS.map((s, i) => (
-          <li key={s.title} className="flex-1">
-            <Link
-              to="/tutorial"
-              search={i === 0 ? {} : { step: i + 1 }}
-              aria-current={i + 1 === step ? 'step' : undefined}
-              aria-label={`Step ${i + 1}: ${s.title}`}
-              className="block py-2"
+      <nav aria-label="Tutorial steps" className="mb-6 flex gap-4">
+        {([1, 2] as const).map((part) => {
+          const first = STEPS.findIndex((s) => s.part === part) + 1;
+          const steps = STEPS.filter((s) => s.part === part);
+          return (
+            <div
+              key={part}
+              style={{ flexGrow: steps.length }}
+              className="flex basis-0 flex-col"
             >
-              <span
-                aria-hidden
-                className={`block h-1.5 rounded-full transition-colors ${
-                  i + 1 <= step ? 'bg-lamp' : 'bg-line'
+              <Link
+                to="/tutorial"
+                search={stepSearch(first)}
+                className={`self-start text-sm font-semibold ${
+                  part === current.part ? 'text-ink' : 'text-ink-soft'
                 }`}
-              />
-            </Link>
-          </li>
-        ))}
-      </ol>
+              >
+                Part {part}: {PARTS[part]}
+              </Link>
+              <ol className="mt-auto flex gap-2">
+                {steps.map((s, i) => {
+                  const n = first + i;
+                  return (
+                    <li key={s.title} className="flex-1">
+                      <Link
+                        to="/tutorial"
+                        search={stepSearch(n)}
+                        aria-current={n === step ? 'step' : undefined}
+                        aria-label={`Step ${n}: ${s.title}`}
+                        className="block py-2"
+                      >
+                        <span
+                          aria-hidden
+                          className={`block h-1.5 rounded-full transition-colors ${
+                            n <= step ? 'bg-lamp' : 'bg-line'
+                          }`}
+                        />
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ol>
+            </div>
+          );
+        })}
+      </nav>
 
       <h2
         ref={headingRef}
@@ -103,21 +181,22 @@ function TutorialPage() {
         className="mb-2 text-3xl font-extrabold tracking-tight outline-none"
       >
         <span className="text-ink-soft">
-          {step}/{STEPS.length}
+          {stepInPart}/{partSteps.length}
         </span>{' '}
         {current.title}
       </h2>
       <p className="mb-6 text-ink-soft">{current.intro}</p>
 
-      {current.size === undefined ? (
-        <BitDemo />
-      ) : (
-        <Practice
+      {current.row ? (
+        <BitRow
           key={step}
-          size={current.size}
-          placeValues={current.placeValues}
+          size={current.row.size}
+          sequence={current.row.sequence}
+          prompt={current.row.prompt}
         />
-      )}
+      ) : current.grid ? (
+        <Practice key={step} size={current.grid.size} />
+      ) : null}
 
       <nav
         aria-label="Tutorial"
@@ -126,7 +205,7 @@ function TutorialPage() {
         {step > 1 ? (
           <Link
             to="/tutorial"
-            search={step === 2 ? {} : { step: step - 1 }}
+            search={stepSearch(step - 1)}
             className="btn btn-ghost"
           >
             <ArrowLeft className="size-4" aria-hidden />
@@ -150,10 +229,12 @@ function TutorialPage() {
         ) : (
           <Link
             to="/tutorial"
-            search={{ step: step + 1 }}
+            search={stepSearch(step + 1)}
             className="btn btn-lamp"
           >
-            Next
+            {STEPS[step]?.part === current.part
+              ? 'Next'
+              : 'Next: play the game'}
             <ArrowRight className="size-4" aria-hidden />
           </Link>
         )}
@@ -163,19 +244,12 @@ function TutorialPage() {
 }
 
 /** An untimed grid to practise on, with a fresh puzzle on each try. */
-function Practice({
-  size,
-  placeValues,
-}: {
-  size: number;
-  placeValues?: boolean;
-}) {
+function Practice({ size }: { size: number }) {
   const [round, setRound] = useState(0);
   return (
     <PracticeGrid
       key={round}
       size={size}
-      placeValues={placeValues}
       onRetry={() => setRound((r) => r + 1)}
     />
   );
@@ -183,11 +257,9 @@ function Practice({
 
 function PracticeGrid({
   size,
-  placeValues,
   onRetry,
 }: {
   size: number;
-  placeValues?: boolean;
   onRetry: () => void;
 }) {
   const [puzzle] = useState(() => createPuzzle(size));
@@ -212,7 +284,6 @@ function PracticeGrid({
         grid={grid}
         outcome={outcome}
         onToggle={handleToggle}
-        placeValues={placeValues}
       />
       <button
         type="button"

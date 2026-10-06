@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import { GraduationCap } from 'lucide-react';
 import { useMemo } from 'react';
 
-import { BitDemo } from '../components/BitDemo';
+import { BitRow } from '../components/BitRow';
 import { PlayerPicker } from '../components/PlayerPicker';
 import { SizeCard } from '../components/SizeCard';
 import { GRID_SIZES, isLargeScreenOnly, isValidSize } from '../game/puzzle';
@@ -60,7 +60,7 @@ function HomePage() {
             Every row and column of the grid is a binary number. Make them all
             match their targets, as fast as you can.
           </p>
-          <BitDemo />
+          <BitRow size={4} start={[0, 1, 0, 1]} />
           <p className="mt-3 text-center text-sm">
             <TutorialLink>Learn step by step in the full tutorial</TutorialLink>
           </p>
