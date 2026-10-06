@@ -84,7 +84,7 @@ export function BitRow({
         className="font-digits mx-auto grid w-fit items-center gap-x-2 text-[calc(var(--cell)*0.5)]"
       >
         {/* Room for the notes above the target and below the sum */}
-        <span aria-hidden className="col-span-full h-9" />
+        <span aria-hidden className="col-span-full h-10" />
 
         {bits.map((bit, i) => (
           <div key={i} className="perspective-[400px]">
@@ -223,7 +223,9 @@ function Note({ to }: { to: 'target' | 'sum' }) {
     <span aria-hidden className={handwriting}>
       <span
         className={`absolute left-1/2 flex -translate-x-1/2 items-center ${
-          target ? 'bottom-full flex-col' : 'top-full flex-col-reverse'
+          target
+            ? 'bottom-full mb-1 flex-col'
+            : 'top-full mt-0.5 flex-col-reverse'
         }`}
       >
         <span className="-rotate-3">{label}</span>
@@ -233,7 +235,7 @@ function Note({ to }: { to: 'target' | 'sum' }) {
           className={`h-4 shrink-0 ${target ? '' : '-scale-y-100'}`}
         >
           <path d="M5 1.5c3.2 3 4.2 7.6 2.4 13.6" />
-          <path d="M7.4 15.4c-1.7-1-3-2.4-3.9-4M7.5 15.3c.6-1.9 1.7-3.4 3.2-4.7" />
+          <path d="M5.8 10.4 7.4 15.1 11.3 12" />
         </svg>
       </span>
     </span>
