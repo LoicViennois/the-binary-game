@@ -83,9 +83,8 @@ export function BitRow({
         style={style}
         className="font-digits mx-auto grid w-fit items-center gap-x-2 text-[calc(var(--cell)*0.5)]"
       >
-        <span aria-hidden style={{ gridColumn: `span ${size}` }} />
-        <StackedNote to="down">target</StackedNote>
-        <span aria-hidden />
+        {/* Room for the notes above the target and below the sum on narrow screens */}
+        <span aria-hidden className="col-span-full h-9 sm:hidden" />
 
         {bits.map((bit, i) => (
           <div key={i} className="perspective-[400px]">
@@ -103,19 +102,23 @@ export function BitRow({
           </div>
         ))}
         <div className="ml-1 border-l-2 border-dashed border-line pl-3">
-          <div
-            key={String(matched)}
-            data-testid="row-target"
-            data-valid={matched}
-            className={`target grid size-(--cell) place-items-center font-bold ${
-              matched ? 'animate-pop' : ''
-            }`}
-          >
-            <span className="sr-only">Target: </span>
-            {target}
+          <div className="relative">
+            <div
+              key={String(matched)}
+              data-testid="row-target"
+              data-valid={matched}
+              className={`target grid size-(--cell) place-items-center font-bold ${
+                matched ? 'animate-pop' : ''
+              }`}
+            >
+              <span className="sr-only">Target: </span>
+              {target}
+            </div>
+            <Note to="target" />
           </div>
         </div>
-        <SideNote to="up">target</SideNote>
+        {/* Room for the notes beside the numbers from sm up */}
+        <span aria-hidden className="sm:w-20" />
 
         {bits.map((bit, i) => (
           <span
@@ -147,13 +150,15 @@ export function BitRow({
               matched ? 'text-match' : 'text-ink'
             }`}
           >
-            = {value}
+            ={' '}
+            <span className="relative">
+              {value}
+              <Note to="sum" />
+            </span>
           </span>
         </div>
-        <SideNote to="down">your sum</SideNote>
-        <span style={{ gridColumnStart: size + 1 }} className="self-start">
-          <StackedNote to="up">your sum</StackedNote>
-        </span>
+        <span aria-hidden />
+        <span aria-hidden className="col-span-full h-10 sm:hidden" />
       </div>
 
       <p aria-live="polite" className="sr-only">
@@ -212,54 +217,47 @@ const sketch = {
   strokeLinejoin: 'round',
 } as const;
 
-/** A handwritten note beside the row, with a sketchy arrow curving left to the target (up) or the sum (down). */
-function SideNote({ to, children }: { to: 'up' | 'down'; children: string }) {
-  const up = to === 'up';
+/**
+ * A handwritten note with a sketchy arrow pointing at the target or the sum:
+ * beside the number from sm up, above the target or below the sum on narrow screens.
+ */
+function Note({ to }: { to: 'target' | 'sum' }) {
+  const target = to === 'target';
+  const label = target ? 'target' : 'your sum';
   return (
-    // Hides what is inside, not the grid item itself, so the other cells keep their places.
-    <span aria-hidden className={up ? '' : 'self-stretch'}>
+    <span aria-hidden className={handwriting}>
       <span
-        className={`flex h-full gap-0.5 pl-1 text-ink-soft max-sm:hidden ${up ? 'items-start' : 'items-end'}`}
+        className={`absolute top-1/2 left-full ml-1 flex gap-0.5 max-sm:hidden ${
+          // the arrow tip sits 70% down the arrow, or 30% once flipped
+          target
+            ? '-translate-y-[70%] items-start'
+            : '-translate-y-[30%] items-end'
+        }`}
       >
         <svg
           viewBox="0 0 32 22"
           {...sketch}
-          className={`w-7 shrink-0 ${up ? 'mt-2' : '-scale-y-100'}`}
+          className={`w-7 shrink-0 ${target ? '' : '-scale-y-100'}`}
         >
           <path d="M30 6c-4-3.5-11-4.2-16-1.8-4.6 2.2-7.6 6-9.4 10.6" />
           <path d="M3.6 15.4c-.5-2.6-.3-5.1.4-7.4M3.8 15.6c2.3-1 4.6-1.5 7.2-1.6" />
         </svg>
-        <span className={`-rotate-6 ${handwriting}`}>{children}</span>
+        <span className="-rotate-6">{label}</span>
       </span>
-    </span>
-  );
-}
-
-/** The same note for narrow screens, above the target (pointing down) or below the sum (pointing up). */
-function StackedNote({
-  to,
-  children,
-}: {
-  to: 'up' | 'down';
-  children: string;
-}) {
-  const down = to === 'down';
-  const arrow = (
-    <svg
-      viewBox="0 0 16 18"
-      {...sketch}
-      className={`h-4 shrink-0 ${down ? '' : '-scale-y-100'}`}
-    >
-      <path d="M5 1.5c3.2 3 4.2 7.6 2.4 13.6" />
-      <path d="M7.4 15.4c-1.7-1-3-2.4-3.9-4M7.5 15.3c.6-1.9 1.7-3.4 3.2-4.7" />
-    </svg>
-  );
-  return (
-    <span aria-hidden className="ml-1 block border-l-2 border-transparent pl-3">
-      <span className="flex w-(--cell) flex-col items-center text-ink-soft sm:hidden">
-        {down ? null : arrow}
-        <span className={`-rotate-3 ${handwriting}`}>{children}</span>
-        {down ? arrow : null}
+      <span
+        className={`absolute left-1/2 flex -translate-x-1/2 items-center sm:hidden ${
+          target ? 'bottom-full flex-col' : 'top-full flex-col-reverse'
+        }`}
+      >
+        <span className="-rotate-3">{label}</span>
+        <svg
+          viewBox="0 0 16 18"
+          {...sketch}
+          className={`h-4 shrink-0 ${target ? '' : '-scale-y-100'}`}
+        >
+          <path d="M5 1.5c3.2 3 4.2 7.6 2.4 13.6" />
+          <path d="M7.4 15.4c-1.7-1-3-2.4-3.9-4M7.5 15.3c.6-1.9 1.7-3.4 3.2-4.7" />
+        </svg>
       </span>
     </span>
   );
