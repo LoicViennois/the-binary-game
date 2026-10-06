@@ -47,3 +47,6 @@ Thumbs.db
 
 # TanStack Router plugin cache
 /.tanstack
+
+# Claude Code worktrees
+/.claude/worktrees

@@ -35,7 +35,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             <span className="text-ink-soft">
               Copyright &copy; 2026{' '}
               <a
-                href="https://github.com/LoicViennois"
+                href="https://loicviennois.com/"
                 target="_blank"
                 rel="noopener"
                 className="text-ink"
