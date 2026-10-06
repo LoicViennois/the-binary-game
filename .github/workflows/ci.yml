@@ -42,7 +42,7 @@ jobs:
         run: pnpm run build
 
   test-e2e:
-    runs-on: ubuntu-latest
+    runs-on: namespace-profile-linux-8cpu
 
     steps:
       - name: Checkout repository
