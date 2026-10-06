@@ -19,7 +19,7 @@ interface Step {
   /** A single row of this many bits, counting through `sequence` or with random targets. */
   row?: { size: number; sequence?: readonly number[]; prompt?: string };
   /** A grid of this size to practise on. */
-  grid?: { size: number; placeValues?: boolean };
+  grid?: { size: number };
 }
 
 const PARTS = { 1: 'Count in binary', 2: 'Play the game' } as const;
@@ -78,8 +78,8 @@ const STEPS = [
     part: 2,
     title: 'Rows and columns',
     intro:
-      'The game is a grid where every row and every column is a binary number. Rows read left to right, columns top to bottom. Light the bits so each row matches the target on its right and each column matches the target below it. The small numbers show what each bit is worth.',
-    grid: { size: 2, placeValues: true },
+      'The game is a grid where every row and every column is a binary number. Rows read left to right, columns top to bottom. Light the bits so each row matches the target on its right and each column matches the target below it.',
+    grid: { size: 2 },
   },
   {
     part: 2,
@@ -195,11 +195,7 @@ function TutorialPage() {
           prompt={current.row.prompt}
         />
       ) : current.grid ? (
-        <Practice
-          key={step}
-          size={current.grid.size}
-          placeValues={current.grid.placeValues}
-        />
+        <Practice key={step} size={current.grid.size} />
       ) : null}
 
       <nav
@@ -248,19 +244,12 @@ function TutorialPage() {
 }
 
 /** An untimed grid to practise on, with a fresh puzzle on each try. */
-function Practice({
-  size,
-  placeValues,
-}: {
-  size: number;
-  placeValues?: boolean;
-}) {
+function Practice({ size }: { size: number }) {
   const [round, setRound] = useState(0);
   return (
     <PracticeGrid
       key={round}
       size={size}
-      placeValues={placeValues}
       onRetry={() => setRound((r) => r + 1)}
     />
   );
@@ -268,11 +257,9 @@ function Practice({
 
 function PracticeGrid({
   size,
-  placeValues,
   onRetry,
 }: {
   size: number;
-  placeValues?: boolean;
   onRetry: () => void;
 }) {
   const [puzzle] = useState(() => createPuzzle(size));
@@ -297,7 +284,6 @@ function PracticeGrid({
         grid={grid}
         outcome={outcome}
         onToggle={handleToggle}
-        placeValues={placeValues}
       />
       <button
         type="button"
