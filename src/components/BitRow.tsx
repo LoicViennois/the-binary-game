@@ -26,8 +26,8 @@ function randomTarget(max: number, ...except: number[]): number {
 
 /**
  * A single playable row, laid out like a row of the game: bits on the left,
- * target on the right. The current sum shows underneath, as an equation and as
- * blocks filling a bar up to the target mark.
+ * target on the right. Underneath, a column addition: each bit adds its worth
+ * when lit and 0 otherwise, and the sum sits right under the target.
  */
 export function BitRow({
   size,
@@ -81,13 +81,11 @@ export function BitRow({
         style={style}
         className="font-digits mx-auto grid w-fit items-center gap-x-2 text-[calc(var(--cell)*0.5)]"
       >
-        {bits.map((bit, i) => (
+        {bits.map((_, i) => (
           <span
             key={i}
             aria-hidden
-            className={`mb-1.5 text-center text-xs transition-colors ${
-              bit ? 'font-bold text-ink' : 'text-ink-soft'
-            }`}
+            className="mb-1.5 text-center text-xs text-ink-soft"
           >
             {placeValue(i)}
           </span>
@@ -123,22 +121,44 @@ export function BitRow({
           </div>
         </div>
 
-        <SumBar
-          lit={lit}
-          max={max}
-          target={target}
-          matched={matched}
-          size={size}
-        />
-        <span aria-hidden />
+        {bits.map((bit, i) => (
+          <span
+            key={i}
+            aria-hidden
+            className="relative flex justify-center pt-3 text-sm"
+          >
+            <span
+              className={`rounded-md px-1.5 py-0.5 transition-colors ${
+                bit ? 'bg-lamp font-bold text-lamp-ink' : 'text-ink-soft'
+              }`}
+            >
+              {bit ? placeValue(i) : 0}
+            </span>
+            {i < size - 1 ? (
+              <span className="absolute -right-1 bottom-0.5 translate-x-1/2 text-ink-soft">
+                +
+              </span>
+            ) : null}
+          </span>
+        ))}
+        <div
+          aria-hidden
+          className="ml-1 self-stretch border-l-2 border-dashed border-line pt-3 pl-3"
+        >
+          <span
+            data-testid="row-sum"
+            className={`block w-(--cell) py-0.5 text-center text-sm font-bold whitespace-nowrap ${
+              matched ? 'text-match' : 'text-ink'
+            }`}
+          >
+            = {value}
+          </span>
+        </div>
       </div>
 
-      <p
-        aria-live="polite"
-        className="font-digits mt-2 text-center text-sm text-ink-soft"
-      >
+      <p aria-live="polite" className="sr-only">
         Sum: {lit.length > 1 ? `${lit.join(' + ')} = ` : null}
-        <strong className={matched ? 'text-match' : 'text-ink'}>{value}</strong>
+        {value}
       </p>
 
       <p
@@ -173,56 +193,5 @@ export function BitRow({
         ) : null}
       </p>
     </section>
-  );
-}
-
-/**
- * A bar from 0 to the largest number the row can make. Each lit bit adds a
- * block as long as its worth, so the row is matched when the blocks end right
- * on the target mark.
- */
-function SumBar({
-  lit,
-  max,
-  target,
-  matched,
-  size,
-}: {
-  lit: number[];
-  max: number;
-  target: number;
-  matched: boolean;
-  size: number;
-}) {
-  const percent = (n: number) => `${(n / max) * 100}%`;
-  // Lit bits are listed biggest first, so each block starts where the bigger ones end.
-  const blocks = lit.map((worth, i) => ({
-    worth,
-    left: lit.slice(0, i).reduce((sum, w) => sum + w, 0),
-  }));
-
-  return (
-    <div
-      aria-hidden
-      style={{ gridColumn: `span ${size}` }}
-      className="relative mt-4 h-2.5 rounded-full bg-tint shadow-[inset_0_0_0_1px_var(--line)]"
-    >
-      {blocks.map(({ worth, left }) => (
-        <span
-          key={worth}
-          style={{
-            left: `calc(${percent(left)} + 1px)`,
-            width: `calc(${percent(worth)} - 2px)`,
-          }}
-          className={`absolute inset-y-0 rounded-full transition-[left,width,background-color] duration-200 ${
-            matched ? 'bg-match' : 'bg-lamp'
-          }`}
-        />
-      ))}
-      <span
-        style={{ left: percent(target) }}
-        className="absolute -inset-y-1.5 w-0.5 -translate-x-1/2 rounded-full bg-ink"
-      />
-    </div>
   );
 }
