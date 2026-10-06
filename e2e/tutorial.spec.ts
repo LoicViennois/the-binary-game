@@ -18,6 +18,32 @@ test.describe('Tutorial', () => {
     await expect(page).toHaveURL(/\/tutorial$/);
   });
 
+  test('clears the demo bits for another number', async ({ page }) => {
+    await clearStorage(page);
+    const home = new HomePage(page);
+    await home.goto();
+
+    const row = page.getByRole('region', { name: 'Try it' });
+    const target = Number(
+      (await row.getByTestId('row-target').innerText()).match(/\d+/)?.[0],
+    );
+    const bits = row.getByRole('button', { name: /^Bit worth/ });
+    for (let i = 0; i < 4; i++) {
+      const want = (target >> (3 - i)) & 1;
+      const lit = (await bits.nth(i).getAttribute('data-lit')) === 'true';
+      if (lit !== (want === 1)) {
+        await bits.nth(i).click();
+      }
+    }
+    await row.getByRole('button', { name: 'Try another number' }).click();
+
+    await expect(row.getByRole('button', { name: /: on$/ })).toHaveCount(0);
+    await expect(row).toContainText('Sum: 0');
+    await expect(row.getByTestId('row-target')).not.toHaveText(
+      new RegExp(`\\b${target}$`),
+    );
+  });
+
   test('stays reachable from home once a name is picked', async ({ page }) => {
     await seedPlayers(page, ['Learner']);
     const home = new HomePage(page);

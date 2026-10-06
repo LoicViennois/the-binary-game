@@ -182,11 +182,12 @@ export function BitRow({
                 type="button"
                 onClick={() =>
                   moveOn(() => {
+                    // Start each new number from a clear row.
+                    setBits(Array<Bit>(size).fill(0));
                     if (sequence) {
                       setIndex(done ? 0 : index + 1);
-                      setBits(Array<Bit>(size).fill(0));
                     } else {
-                      setRandomValue(randomTarget(max, value));
+                      setRandomValue(randomTarget(max, target));
                     }
                   })
                 }
