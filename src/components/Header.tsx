@@ -42,7 +42,7 @@ export function Header() {
             target="_blank"
             rel="noopener"
             aria-label="GitHub repository"
-            className={`${iconButton} max-sm:hidden`}
+            className={iconButton}
           >
             <GitHubIcon className="size-5" />
           </a>
