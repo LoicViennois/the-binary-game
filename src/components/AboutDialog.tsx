@@ -84,8 +84,8 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               Buy me a coffee
             </h3>
             <p className="text-ink-soft">
-              The game is free and always will be. If you enjoy it, a coffee is
-              much appreciated!
+              The game is free and always will be. If you enjoy it, you can buy
+              me a coffee!
               <br />
               <a
                 href={sponsorUrl}

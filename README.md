@@ -15,7 +15,3 @@ pnpm build   # type-check and build to dist/
 pnpm lint
 pnpm e2e     # Playwright end-to-end tests
 ```
-
-## Support
-
-The Binary Game is free and ad-free, and will stay that way. If you enjoy it and feel like it, you can [buy me a coffee through GitHub Sponsors](https://github.com/sponsors/LoicViennois) ☕ — thank you!
