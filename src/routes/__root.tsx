@@ -2,7 +2,6 @@ import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
-import { BuildInfo } from '../components/BuildInfo';
 import { Header } from '../components/Header';
 import { UpdatePrompt } from '../components/UpdatePrompt';
 
@@ -19,7 +18,6 @@ function RootLayout() {
           <Outlet />
         </div>
       </main>
-      <BuildInfo />
       <UpdatePrompt />
       <Analytics />
       <SpeedInsights />

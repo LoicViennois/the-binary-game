@@ -11,8 +11,6 @@ export class HomePage {
   readonly githubLink: Locator;
   readonly aboutButton: Locator;
   readonly highScoresLink: Locator;
-  readonly buildInfo: Locator;
-  readonly buildInfoLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -33,8 +31,6 @@ export class HomePage {
     this.highScoresLink = page
       .getByRole('banner')
       .getByRole('link', { name: 'High scores' });
-    this.buildInfo = page.getByTestId('build-info');
-    this.buildInfoLink = this.buildInfo.getByRole('link');
   }
 
   async goto(): Promise<void> {
