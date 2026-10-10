@@ -41,25 +41,19 @@ test.describe('Navigation & Modals', () => {
     await expect(home.githubLink).toHaveAttribute('target', '_blank');
   });
 
-  test('contains valid build-info link in bottom left corner with short sha', async () => {
-    await expect(home.buildInfo).toBeVisible();
-    await expect(home.buildInfoLink).toHaveText(/^[0-9a-f]{7}$/i);
-    await expect(home.buildInfoLink).toHaveAttribute(
-      'href',
-      /^https:\/\/github\.com\/LoicViennois\/the-binary-game\/commit\/[0-9a-f]{40}$/i,
-    );
-    await expect(home.buildInfoLink).toHaveAttribute('target', '_blank');
-
-    const shortSha = (await home.buildInfoLink.innerText()).trim();
-    const href = await home.buildInfoLink.getAttribute('href');
-    expect(href).toContain(shortSha);
-  });
-
   test('opens and closes the About modal dialog', async () => {
     await home.aboutButton.click();
     await aboutModal.waitForOpen();
 
     await expect(aboutModal.commitLink).toHaveText(/^[0-9a-f]{7}$/i);
+    await expect(aboutModal.commitLink).toHaveAttribute(
+      'href',
+      /^https:\/\/github\.com\/LoicViennois\/the-binary-game\/commit\/[0-9a-f]{40}$/i,
+    );
+    const shortSha = (await aboutModal.commitLink.innerText()).trim();
+    expect(await aboutModal.commitLink.getAttribute('href')).toContain(
+      shortSha,
+    );
     await expect(aboutModal.licenseLink).toBeVisible();
     await expect(aboutModal.githubIssuesLink).toBeVisible();
     await expect(aboutModal.redditFeedbackLink).toBeVisible();
