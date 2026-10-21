@@ -5,8 +5,8 @@
     </filter>
   </defs>
   <rect width="512" height="512" rx="116" fill="#1a1e28"/>
-  <rect x="82" y="76.53999999999999" width="156" height="156" rx="37.44" fill="#4dd8ff" filter="url(#glow)"/><rect x="82" y="87.46" width="156" height="156" rx="37.44" fill="#1a93b8"/><rect x="82" y="76.53999999999999" width="156" height="156" rx="37.44" fill="#4dd8ff"/>
+  <rect x="82" y="76.53999999999999" width="156" height="156" rx="37.44" fill="#8fd14f" filter="url(#glow)"/><rect x="82" y="87.46" width="156" height="156" rx="37.44" fill="#5f9a28"/><rect x="82" y="76.53999999999999" width="156" height="156" rx="37.44" fill="#8fd14f"/>
   <rect x="274" y="87.46" width="156" height="156" rx="37.44" fill="#262b38"/><rect x="274" y="76.53999999999999" width="156" height="156" rx="37.44" fill="#3a4153"/>
-  <rect x="82" y="268.54" width="156" height="156" rx="37.44" fill="#4dd8ff" filter="url(#glow)"/><rect x="82" y="279.46000000000004" width="156" height="156" rx="37.44" fill="#1a93b8"/><rect x="82" y="268.54" width="156" height="156" rx="37.44" fill="#4dd8ff"/>
-  <rect x="274" y="268.54" width="156" height="156" rx="37.44" fill="#4dd8ff" filter="url(#glow)"/><rect x="274" y="279.46000000000004" width="156" height="156" rx="37.44" fill="#1a93b8"/><rect x="274" y="268.54" width="156" height="156" rx="37.44" fill="#4dd8ff"/>
+  <rect x="82" y="268.54" width="156" height="156" rx="37.44" fill="#8fd14f" filter="url(#glow)"/><rect x="82" y="279.46000000000004" width="156" height="156" rx="37.44" fill="#5f9a28"/><rect x="82" y="268.54" width="156" height="156" rx="37.44" fill="#8fd14f"/>
+  <rect x="274" y="268.54" width="156" height="156" rx="37.44" fill="#8fd14f" filter="url(#glow)"/><rect x="274" y="279.46000000000004" width="156" height="156" rx="37.44" fill="#5f9a28"/><rect x="274" y="268.54" width="156" height="156" rx="37.44" fill="#8fd14f"/>
 </svg>

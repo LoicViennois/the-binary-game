@@ -13,8 +13,8 @@ const PUBLIC_DIR = resolve(
 );
 
 const BACKGROUND = '#1a1e28';
-const LAMP = '#4dd8ff';
-const LAMP_EDGE = '#1a93b8';
+const LAMP = '#8fd14f';
+const LAMP_EDGE = '#5f9a28';
 const OFF = '#3a4153';
 const OFF_EDGE = '#262b38';
 const PATTERN = [1, 0, 1, 1];
