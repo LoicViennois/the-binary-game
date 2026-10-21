@@ -21,11 +21,11 @@
   --ink-soft: #586173;
   --line: #d8dce4;
   --key-edge: #c5cad5;
-  --lamp: #ffb21e;
-  --lamp-ink: #2b1d00;
+  --lamp: #22c3ee;
+  --lamp-ink: #062a36;
   /* lamp hue dark enough for text on the surface */
-  --lamp-text: #9a6200;
-  --lamp-glow: rgb(255 178 30 / 0.5);
+  --lamp-text: #0a6f8f;
+  --lamp-glow: rgb(34 195 238 / 0.5);
   --match: #0b8a68;
   --match-ink: #ffffff;
   --match-glow: rgb(11 138 104 / 0.4);
@@ -40,10 +40,10 @@
   --ink-soft: #9aa3b5;
   --line: #2b3140;
   --key-edge: #0a0c11;
-  --lamp: #ffbf3c;
-  --lamp-ink: #2b1d00;
+  --lamp: #4dd8ff;
+  --lamp-ink: #062a36;
   --lamp-text: var(--lamp);
-  --lamp-glow: rgb(255 191 60 / 0.45);
+  --lamp-glow: rgb(77 216 255 / 0.45);
   --match: #2fd3a2;
   --match-ink: #062a20;
   --match-glow: rgb(47 211 162 / 0.35);
@@ -233,7 +233,7 @@
 }
 
 /*
- * A bit is a little key with a lamp inside. Lit: warm and glowing.
+ * A bit is a little key with a lamp inside. Lit: cool and glowing.
  * Switching off fades slowly (the unlit state owns the long transition).
  */
 @utility bit {
@@ -268,7 +268,7 @@
     background-color: var(--lamp);
     color: var(--lamp-ink);
     box-shadow:
-      0 3px 0 color-mix(in srgb, var(--lamp) 60%, #7a4a00),
+      0 3px 0 color-mix(in srgb, var(--lamp) 60%, #00506a),
       0 0 18px var(--lamp-glow);
     transition-duration: 90ms, 60ms, 60ms, 60ms;
   }

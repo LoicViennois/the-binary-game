@@ -13,8 +13,8 @@ const PUBLIC_DIR = resolve(
 );
 
 const BACKGROUND = '#1a1e28';
-const LAMP = '#ffbf3c';
-const LAMP_EDGE = '#c98a12';
+const LAMP = '#4dd8ff';
+const LAMP_EDGE = '#1a93b8';
 const OFF = '#3a4153';
 const OFF_EDGE = '#262b38';
 const PATTERN = [1, 0, 1, 1];
@@ -73,7 +73,11 @@ const outputs = [
   })),
 ];
 
-const browser = await chromium.launch();
+const browser = await chromium.launch(
+  process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH
+    ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH }
+    : undefined,
+);
 const page = await browser.newPage();
 
 for (const { file, svg, size } of outputs) {
