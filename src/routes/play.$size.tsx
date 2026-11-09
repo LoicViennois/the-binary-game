@@ -13,7 +13,7 @@ import {
   Trophy,
   X,
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { type GameOutcome, Grid } from '../components/Grid';
 import { HighScores } from '../components/HighScores';
@@ -29,6 +29,7 @@ import {
 } from '../game/puzzle';
 import { addHighScore, getPersonalBest } from '../lib/high-scores';
 import { getCurrentPlayer } from '../lib/players';
+import { holdUpdates } from '../lib/update';
 
 export const Route = createFileRoute('/play/$size')({
   params: {
@@ -128,6 +129,10 @@ function Game({ size, onRestart }: { size: number; onRestart: () => void }) {
   const [startedAt] = useState(() => Date.now());
   const [outcome, setOutcome] = useState<GameOutcome>({ result: 'playing' });
   const [finalTime, setFinalTime] = useState<number>();
+
+  // An update reloads the page, which would throw the game in progress away.
+  const playing = outcome.result === 'playing';
+  useEffect(() => (playing ? holdUpdates() : undefined), [playing]);
 
   const handleToggle = (row: number, col: number) => {
     const next = toggleCell(grid, row, col);
