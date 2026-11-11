@@ -8,7 +8,7 @@ export class AboutModalPage {
   readonly commitLink: Locator;
   readonly licenseLink: Locator;
   readonly githubIssuesLink: Locator;
-  readonly redditFeedbackLink: Locator;
+  readonly emailFeedbackLink: Locator;
   readonly sponsorLink: Locator;
 
   constructor(page: Page) {
@@ -23,8 +23,8 @@ export class AboutModalPage {
     this.githubIssuesLink = this.modal.locator(
       'a[href*="github.com/LoicViennois/the-binary-game/issues"]',
     );
-    this.redditFeedbackLink = this.modal.locator(
-      'a[href*="reddit.com/message"]',
+    this.emailFeedbackLink = this.modal.locator(
+      'a[href^="mailto:contact@loicviennois.com"]',
     );
     this.sponsorLink = this.modal.getByTestId('sponsor-link');
   }
