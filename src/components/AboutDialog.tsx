@@ -65,9 +65,8 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
                 </a>
               </li>
               <li>
-                Want to say hi?
+                Want to say hi? Send me an email:
                 <br />
-                Send me an email:{' '}
                 <a
                   href="mailto:contact@loicviennois.com?subject=%5BThe%20Binary%20Game%5D%20Hello"
                   className="text-ink"
