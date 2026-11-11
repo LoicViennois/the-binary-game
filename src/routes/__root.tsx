@@ -2,6 +2,7 @@ import { createRootRoute, Outlet } from '@tanstack/react-router';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 
+import { Backdrop } from '../components/Backdrop';
 import { Header } from '../components/Header';
 
 export const Route = createRootRoute({
@@ -11,6 +12,7 @@ export const Route = createRootRoute({
 function RootLayout() {
   return (
     <>
+      <Backdrop />
       <Header />
       <main className="flex h-full pt-12 lg:pt-14">
         <div className="flex-1">
