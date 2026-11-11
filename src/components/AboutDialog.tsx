@@ -67,11 +67,12 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               <li>
                 Want to say hi?
                 <br />
+                Send me an email:{' '}
                 <a
                   href="mailto:contact@loicviennois.com?subject=%5BThe%20Binary%20Game%5D%20Hello"
                   className="text-ink"
                 >
-                  Send me an email
+                  contact@loicviennois.com
                 </a>
               </li>
             </ul>

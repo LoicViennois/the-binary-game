@@ -56,7 +56,9 @@ test.describe('Navigation & Modals', () => {
     );
     await expect(aboutModal.licenseLink).toBeVisible();
     await expect(aboutModal.githubIssuesLink).toBeVisible();
-    await expect(aboutModal.emailFeedbackLink).toBeVisible();
+    await expect(aboutModal.emailFeedbackLink).toHaveText(
+      'contact@loicviennois.com',
+    );
     await expect(aboutModal.sponsorLink).toHaveAttribute(
       'href',
       'https://github.com/sponsors/LoicViennois',
