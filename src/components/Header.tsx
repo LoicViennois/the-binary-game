@@ -38,7 +38,6 @@ export function Header() {
             <Trophy className="size-4" aria-hidden />
             High scores
           </Link>
-          <HomeLink className={iconButton} />
           <a
             href={repoUrl}
             target="_blank"
@@ -57,6 +56,7 @@ export function Header() {
             <Info className="size-5" aria-hidden />
           </button>
           <ThemeToggle />
+          <HomeLink className={iconButton} />
           {player ? (
             <Link
               to="/"
