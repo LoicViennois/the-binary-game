@@ -41,6 +41,14 @@ test.describe('Navigation & Modals', () => {
     await expect(home.githubLink).toHaveAttribute('target', '_blank');
   });
 
+  test('links to the home page', async () => {
+    await expect(home.homeLink).toBeVisible();
+    await expect(home.homeLink).toHaveAttribute(
+      'href',
+      'https://www.loicviennois.com/',
+    );
+  });
+
   test('opens and closes the About modal dialog', async () => {
     await home.aboutButton.click();
     await aboutModal.waitForOpen();

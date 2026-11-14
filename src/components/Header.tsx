@@ -6,6 +6,7 @@ import { repoUrl } from '../lib/build-info';
 import { useCurrentPlayer } from '../lib/players';
 import { AboutDialog } from './AboutDialog';
 import { GitHubIcon } from './GitHubIcon';
+import { HomeLink } from './HomeLink';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -55,6 +56,7 @@ export function Header() {
             <Info className="size-5" aria-hidden />
           </button>
           <ThemeToggle />
+          <HomeLink className={iconButton} />
           {player ? (
             <Link
               to="/"
