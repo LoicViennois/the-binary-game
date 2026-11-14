@@ -9,6 +9,7 @@ export class HomePage {
   readonly players: Locator;
   readonly currentPlayer: Locator;
   readonly githubLink: Locator;
+  readonly homeLink: Locator;
   readonly aboutButton: Locator;
   readonly highScoresLink: Locator;
 
@@ -25,6 +26,9 @@ export class HomePage {
     this.githubLink = page
       .getByRole('banner')
       .getByRole('link', { name: 'GitHub repository' });
+    this.homeLink = page
+      .getByRole('banner')
+      .getByRole('link', { name: 'More projects by Loïc Viennois' });
     this.aboutButton = page
       .getByRole('banner')
       .getByRole('button', { name: 'About' });

@@ -6,6 +6,7 @@ import { repoUrl } from '../lib/build-info';
 import { useCurrentPlayer } from '../lib/players';
 import { AboutDialog } from './AboutDialog';
 import { GitHubIcon } from './GitHubIcon';
+import { HomeLink } from './HomeLink';
 import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 
@@ -37,6 +38,7 @@ export function Header() {
             <Trophy className="size-4" aria-hidden />
             High scores
           </Link>
+          <HomeLink className={iconButton} />
           <a
             href={repoUrl}
             target="_blank"
