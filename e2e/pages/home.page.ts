@@ -7,7 +7,6 @@ export class HomePage {
   readonly newNameButton: Locator;
   readonly editPlayersButton: Locator;
   readonly players: Locator;
-  readonly currentPlayer: Locator;
   readonly githubLink: Locator;
   readonly homeLink: Locator;
   readonly aboutButton: Locator;
@@ -22,7 +21,6 @@ export class HomePage {
       name: /Edit players|Done/,
     });
     this.players = page.getByRole('list', { name: 'Players on this device' });
-    this.currentPlayer = page.getByTestId('current-player');
     this.githubLink = page
       .getByRole('banner')
       .getByRole('link', { name: 'GitHub repository' });

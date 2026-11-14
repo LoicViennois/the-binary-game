@@ -96,3 +96,14 @@ test.describe('Navigation & Modals', () => {
     await expect(html).toHaveAttribute('data-theme', 'light');
   });
 });
+
+test('fits the header on one line on a 320px screen', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  const home = new HomePage(page);
+  await home.goto();
+
+  // One line of text-sm plus its padding; wrapping would make it ~52px tall.
+  const box = await home.highScoresLink.boundingBox();
+  expect(box?.height).toBeLessThan(40);
+  expect(await page.evaluate('document.documentElement.scrollWidth')).toBe(320);
+});

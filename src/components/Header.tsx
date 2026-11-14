@@ -3,7 +3,6 @@ import { Info, Trophy } from 'lucide-react';
 import { useState } from 'react';
 
 import { repoUrl } from '../lib/build-info';
-import { useCurrentPlayer } from '../lib/players';
 import { AboutDialog } from './AboutDialog';
 import { GitHubIcon } from './GitHubIcon';
 import { HomeLink } from './HomeLink';
@@ -11,10 +10,9 @@ import { Logo } from './Logo';
 import { ThemeToggle } from './ThemeToggle';
 
 const iconButton =
-  'grid size-9 cursor-pointer place-items-center rounded-full text-ink-soft transition hover:bg-tint hover:text-ink active:scale-90';
+  'grid size-8 sm:size-9 cursor-pointer place-items-center rounded-full text-ink-soft transition hover:bg-tint hover:text-ink active:scale-90';
 
 export function Header() {
-  const player = useCurrentPlayer();
   const [aboutOpen, setAboutOpen] = useState(false);
 
   return (
@@ -22,7 +20,7 @@ export function Header() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-3 lg:h-16 lg:px-6">
         <Link
           to="/"
-          className="flex items-center gap-2.5 rounded-lg"
+          className="flex shrink-0 items-center gap-2.5 rounded-lg"
           aria-label="The Binary Game, home"
         >
           <Logo />
@@ -30,10 +28,10 @@ export function Header() {
             The Binary Game
           </h1>
         </Link>
-        <nav className="flex items-center gap-1">
+        <nav className="flex items-center sm:gap-1">
           <Link
             to="/scores"
-            className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold text-ink-soft transition hover:bg-tint hover:text-ink [&.active]:bg-tint [&.active]:text-ink"
+            className="flex items-center gap-1 rounded-full px-1.5 py-1.5 text-sm whitespace-nowrap sm:gap-1.5 sm:px-3 font-semibold text-ink-soft transition hover:bg-tint hover:text-ink [&.active]:bg-tint [&.active]:text-ink"
           >
             <Trophy className="size-4" aria-hidden />
             High scores
@@ -57,22 +55,6 @@ export function Header() {
           </button>
           <ThemeToggle />
           <HomeLink className={iconButton} />
-          {player ? (
-            <Link
-              to="/"
-              title={`${player.name} · Switch player`}
-              aria-label={`Switch player, currently ${player.name}`}
-              data-testid="current-player"
-              className="ml-1 grid size-9 place-items-center rounded-full text-sm font-semibold transition hover:bg-tint"
-            >
-              <span
-                aria-hidden
-                className="grid size-7 place-items-center rounded-full bg-lamp text-xs text-lamp-ink"
-              >
-                {player.name.charAt(0).toUpperCase()}
-              </span>
-            </Link>
-          ) : null}
         </nav>
       </div>
       <AboutDialog open={aboutOpen} onClose={() => setAboutOpen(false)} />
