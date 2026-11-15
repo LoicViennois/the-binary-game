@@ -17,7 +17,6 @@ test.describe('Players', () => {
     test('asks for a name before showing the grids', async () => {
       await expect(home.nameInput).toBeVisible();
       await expect(home.gameLink(3)).toBeHidden();
-      await expect(home.currentPlayer).toBeHidden();
     });
 
     test('rejects invalid names', async () => {
@@ -35,10 +34,9 @@ test.describe('Players', () => {
       await expect(home.playButton).toBeDisabled();
     });
 
-    test('picking a name shows the grids and the name in the header', async () => {
+    test('picking a name selects it and shows the grids', async () => {
       await home.pickNewName('Tester');
 
-      await expect(home.currentPlayer).toHaveAccessibleName(/Tester/);
       await expect(home.player('Tester')).toHaveAttribute(
         'aria-pressed',
         'true',
@@ -72,7 +70,6 @@ test.describe('Players', () => {
 
       await home.player('Bob').click();
       await expect(home.player('Bob')).toHaveAttribute('aria-pressed', 'true');
-      await expect(home.currentPlayer).toHaveAccessibleName(/Bob/);
     });
 
     test('remembers names after reload and reuses an existing name instead of duplicating it', async ({
@@ -114,7 +111,6 @@ test.describe('Players', () => {
     test('removing the current player asks to pick another before playing', async () => {
       await home.removePlayer('Alice');
 
-      await expect(home.currentPlayer).toBeHidden();
       await expect(home.gameLink(3)).toBeHidden();
 
       await home.player('Bob').click();

@@ -41,6 +41,14 @@ test.describe('Navigation & Modals', () => {
     await expect(home.githubLink).toHaveAttribute('target', '_blank');
   });
 
+  test('links to the home page', async () => {
+    await expect(home.homeLink).toBeVisible();
+    await expect(home.homeLink).toHaveAttribute(
+      'href',
+      'https://www.loicviennois.com/',
+    );
+  });
+
   test('opens and closes the About modal dialog', async () => {
     await home.aboutButton.click();
     await aboutModal.waitForOpen();
@@ -87,4 +95,15 @@ test.describe('Navigation & Modals', () => {
     await page.reload();
     await expect(html).toHaveAttribute('data-theme', 'light');
   });
+});
+
+test('fits the header on one line on a 320px screen', async ({ page }) => {
+  await page.setViewportSize({ width: 320, height: 640 });
+  const home = new HomePage(page);
+  await home.goto();
+
+  // One line of text-sm plus its padding; wrapping would make it ~52px tall.
+  const box = await home.highScoresLink.boundingBox();
+  expect(box?.height).toBeLessThan(40);
+  expect(await page.evaluate('document.documentElement.scrollWidth')).toBe(320);
 });

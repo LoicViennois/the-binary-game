@@ -12,7 +12,7 @@ function RootLayout() {
   return (
     <>
       <Header />
-      <main className="flex h-full pt-12 lg:pt-14">
+      <main className="flex h-full pt-12">
         <div className="flex-1">
           <Outlet />
         </div>
