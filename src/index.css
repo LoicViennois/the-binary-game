@@ -153,6 +153,8 @@
 
   #root {
     height: 100%;
+    /* lets the backdrop sit behind the app but above the body background */
+    isolation: isolate;
   }
 
   :focus-visible {
@@ -298,6 +300,24 @@
       0 0 14px var(--match-glow);
     transition-duration: 120ms;
   }
+}
+
+/*
+ * The app backdrop: a board of bit cells drawn on a canvas (see Backdrop.tsx),
+ * fading out towards the edges so it never competes with the content.
+ */
+@utility bit-board {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  mask-image: radial-gradient(
+    ellipse 80% 75% at 50% 45%,
+    rgb(0 0 0 / 0.7) 15%,
+    transparent 100%
+  );
 }
 
 /* Cross-fade between pages (TanStack Router view transitions). */
