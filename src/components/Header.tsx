@@ -16,8 +16,8 @@ export function Header() {
   const [aboutOpen, setAboutOpen] = useState(false);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-40 bg-bg/80 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-4 lg:h-16 lg:px-6">
+    <header className="fixed inset-x-0 top-0 z-40 border-b border-line bg-bg/80 backdrop-blur-md">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-2 px-4 lg:px-6">
         <Link
           to="/"
           className="flex shrink-0 items-center gap-2.5 rounded-lg"
