@@ -303,7 +303,7 @@
 }
 
 /*
- * The app backdrop: a board of bit cells drawn on a canvas (see Backdrop.tsx),
+ * The app backdrop: a grid of small dots drawn on a canvas (see Backdrop.tsx),
  * fading out towards the edges so it never competes with the content.
  */
 @utility bit-board {

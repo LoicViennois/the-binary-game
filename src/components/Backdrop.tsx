@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 
-/** Cell size and grid pitch in CSS px. */
-const CELL = 14;
-const PITCH = 22;
-/** Share of cells lit in the random pattern, like a size card preview. */
-const LIT_RATIO = 0.3;
+/** Dot radius and grid pitch in CSS px. */
+const DOT = 1.25;
+const PITCH = 20;
+/** Share of dots lit in the random pattern. */
+const LIT_RATIO = 0.15;
 /** How far around the pointer cells light up while dragging, in cells. */
 const BRUSH_RADIUS = 2.2;
 /**
@@ -34,9 +34,9 @@ function readPalette(): Palette {
 }
 
 /**
- * A quiet board of bit cells behind the app, drawn like the size cards'
- * previews: a random pattern of dimly lit bits. Click and drag on the page
- * to light up the bits along the way, which then slowly cool down.
+ * A quiet grid of small dots behind the app, a few of them faintly lit like
+ * bits. Click and drag on the page to light up the dots along the way, which
+ * then slowly cool down.
  */
 export function Backdrop() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -62,22 +62,22 @@ export function Backdrop() {
     let last = 0;
 
     const draw = () => {
-      const radius = CELL / 4;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let i = 0; i < cols * rows; i++) {
-        const x = (i % cols) * PITCH + (PITCH - CELL) / 2;
-        const y = Math.floor(i / cols) * PITCH + (PITCH - CELL) / 2;
+        const x = (i % cols) * PITCH + PITCH / 2;
+        const y = Math.floor(i / cols) * PITCH + PITCH / 2;
         const h = heat[i] ?? 0;
         ctx.beginPath();
-        ctx.roundRect(x, y, CELL, CELL, radius);
+        // painted dots swell a little and glow
+        ctx.arc(x, y, DOT * (1 + 0.8 * h), 0, Math.PI * 2);
         if (lit[i]) {
-          // dim lamp at rest, full lamp with a glow when painted
-          ctx.globalAlpha = 0.09 + 0.85 * h;
+          // faint lamp at rest, full lamp with a glow when painted
+          ctx.globalAlpha = 0.25 + 0.75 * h;
           ctx.fillStyle = palette.lamp;
           ctx.shadowColor = palette.glow;
-          ctx.shadowBlur = 10 * h;
+          ctx.shadowBlur = 8 * h;
         } else {
-          ctx.globalAlpha = 0.22 + 0.5 * h;
+          ctx.globalAlpha = 0.45 + 0.4 * h;
           ctx.fillStyle = palette.line;
           ctx.shadowBlur = 0;
         }
