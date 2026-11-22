@@ -4,6 +4,7 @@ import { SpeedInsights } from '@vercel/speed-insights/react';
 
 import { Backdrop } from '../components/Backdrop';
 import { Header } from '../components/Header';
+import { skipAutoReloadPageView } from '../lib/auto-reload';
 
 export const Route = createRootRoute({
   component: RootLayout,
@@ -19,7 +20,7 @@ function RootLayout() {
           <Outlet />
         </div>
       </main>
-      <Analytics />
+      <Analytics beforeSend={skipAutoReloadPageView} />
       <SpeedInsights />
     </>
   );
